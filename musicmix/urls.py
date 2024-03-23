@@ -1,8 +1,8 @@
 from django.urls import path
 
-from . import views
+from .musicviews import mainviews
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("login", views.login_user, name="login")
+    path("", mainviews.index, name="index"),
+    path("login", mainviews.login_user, name="login")
 ]
