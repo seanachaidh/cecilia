@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+}
+
+.navigation {
+    .navigation-list {
+        list-style: none;
+    }
+    padding: 1em;
+    background-color: #f4f5f6;
+}
+
+a {
+    cursor: pointer;
+}
+
+ul.messages {
+    margin: 1em;
+    list-style: none;
+    color: black;
+    li {
+        padding: 1em;
+    }
+    li.error {
+        background-color: #c18282;
+    }
+}

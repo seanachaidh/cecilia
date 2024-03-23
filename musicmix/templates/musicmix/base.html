@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="nl">
+{% load static %}
+<head>
+    <title>Musicmix</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/milligram.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+<nav class="navigation">
+    <section class="container">
+        <a class="navigation-title">Testing</a>
+        <ul class="navigation-list float-right">
+            <li class="navigation-item">
+                <a class="navigation-link" href="login">Login</a>
+            </li>
+        </ul>
+    </section>
+
+</nav>
+
+<div class="container">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            	<li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock content %}
+</div>
+
+</body>
+</html>
