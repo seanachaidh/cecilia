@@ -13,7 +13,9 @@ class Label(models.Model):
     label_type = models.CharField(max_length=25, choices=LabelType.choices)
 
     def __str__(self) -> str:
-        return self.text.__str__()
+        lower_type = self.label_type.lower().__str__()
+        label_text = self.text.__str__()
+        return f'{label_text} ({lower_type})'
 
 
 class MusicPiece(models.Model):

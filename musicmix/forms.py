@@ -11,5 +11,17 @@ class LabelRegistrationForm(forms.Form):
 
     def __init__(self):
         super(LabelRegistrationForm, self).__init__()
-        choices = fetch_all_choices_for_type('INSTRUMENT')
-        self.fields['instruments'] = forms.ChoiceField(label='Instrument', choices=choices)
+        choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
+        self.fields['instruments'] = forms.MultipleChoiceField(
+            label='Instrumenten',
+            widget=forms.CheckboxSelectMultiple,
+            choices=choices_instruments
+        )
+
+        choices_stem = fetch_all_choices_for_type('STEM')
+        self.fields['parts'] = forms.MultipleChoiceField(
+            label='Stem',
+            widget=forms.CheckboxSelectMultiple,
+            choices=choices_stem
+        )
+
