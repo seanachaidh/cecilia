@@ -1,5 +1,5 @@
 from django import forms
-from dao.labelrepo import fetch_all_choices_for_type
+from .dao.labelrepo import fetch_all_choices_for_type
 
 
 class LoginForm(forms.Form):
@@ -10,8 +10,6 @@ class LoginForm(forms.Form):
 class LabelRegistrationForm(forms.Form):
 
     def __init__(self):
-        super().__init__()
-        # Instruments
+        super(LabelRegistrationForm, self).__init__()
         choices = fetch_all_choices_for_type('INSTRUMENT')
-        self.instruments = forms.ChoiceField(label='Instrument', choices=choices)
-
+        self.fields['instruments'] = forms.ChoiceField(label='Instrument', choices=choices)
