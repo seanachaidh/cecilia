@@ -9,7 +9,7 @@ from musicmix.forms import LoginForm
 def index(request):
     # If the user is not authenticated, the user must first log in
     if not request.user.is_authenticated:
-        return redirect('/login')
+        return redirect('login')
 
     return render(request, template_name='musicmix/index.html')
 
@@ -24,7 +24,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 # Back to main screen
-                return redirect("/musicmix")
+                return redirect("../musicmix")
             else:
                 messages.add_message(request, messages.ERROR, "Inloggen mislukt")
 

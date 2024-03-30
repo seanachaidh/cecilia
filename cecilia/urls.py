@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+
 """
 URL configuration for cecilia project.
 
@@ -17,7 +19,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
+def index_view():
+    redirect('musicmix')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('musicmix/', include('musicmix.urls'))
+    path('musicmix/', include('musicmix.urls')),
+    path('', index_view)
 ]
