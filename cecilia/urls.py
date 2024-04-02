@@ -20,8 +20,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-def index_view():
-    redirect('musicmix')
+def index_view(request):
+    return redirect('/musicmix')
 
 
 urlpatterns = [

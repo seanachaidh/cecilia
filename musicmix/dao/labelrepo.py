@@ -1,5 +1,5 @@
 from ..models import Label
-
+from ..models import Profile
 
 def fetch_all_labels():
     Label.objects.all()
@@ -11,3 +11,4 @@ def fetch_all_choices_for_type(label_type):
     for x in result:
         result_list.append((x.id, x.text))
     return result_list
+

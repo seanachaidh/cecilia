@@ -31,4 +31,4 @@ class MusicPiece(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    labels = models.ForeignKey(Label, on_delete=models.CASCADE)
+    labels = models.ManyToManyField(Label)

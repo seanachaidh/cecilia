@@ -1,5 +1,6 @@
 from django import forms
 from .dao.labelrepo import fetch_all_choices_for_type
+from .models import Label
 
 
 class LoginForm(forms.Form):
@@ -9,8 +10,8 @@ class LoginForm(forms.Form):
 
 class LabelRegistrationForm(forms.Form):
 
-    def __init__(self):
-        super(LabelRegistrationForm, self).__init__()
+    def __init__(self, data=None):
+        super(LabelRegistrationForm, self).__init__(data=data)
         choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
         self.fields['instruments'] = forms.MultipleChoiceField(
             label='Instrumenten',
@@ -25,3 +26,9 @@ class LabelRegistrationForm(forms.Form):
             choices=choices_stem
         )
 
+    def populate(self, labels: list[Label]):
+        label_types = dict()
+        for label in labels:
+            label_value = label_types.get(str(label.label_type), [])
+            label_value.append(str(label.text))
+            label_types[str(label.label_type)] = label_value
