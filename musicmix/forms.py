@@ -16,14 +16,14 @@ class LabelRegistrationForm(forms.Form):
         self.fields['instruments'] = forms.MultipleChoiceField(
             label='Instrumenten',
             widget=forms.CheckboxSelectMultiple,
-            choices=choices_instruments
+            choices=choices_instruments, required=False
         )
 
         choices_stem = fetch_all_choices_for_type('STEM')
         self.fields['parts'] = forms.MultipleChoiceField(
             label='Stem',
             widget=forms.CheckboxSelectMultiple,
-            choices=choices_stem
+            choices=choices_stem, required=False
         )
 
     def populate(self, labels: list[Label]):
