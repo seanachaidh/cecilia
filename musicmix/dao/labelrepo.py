@@ -17,3 +17,11 @@ def fetch_all_choices_for_type(label_type):
 def fetch_labels_for_profile(profile: Profile) -> list[Label]:
     return_value = Label.objects.filter(profile=profile)
     return return_value
+def save_labels_for_profile(profile, labels):
+    pass
+
+
+def get_labels_from_ids(ids: list[int]) -> list[Label]:
+
+    return list(map(lambda x: Label.objects.get(pk=x), ids))
+

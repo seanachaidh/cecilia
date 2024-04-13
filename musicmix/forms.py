@@ -13,14 +13,14 @@ class LabelRegistrationForm(forms.Form):
     def __init__(self, data=None):
         super(LabelRegistrationForm, self).__init__(data=data)
         choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
-        self.fields['instruments'] = forms.MultipleChoiceField(
+        self.fields['instrument'] = forms.MultipleChoiceField(
             label='Instrumenten',
             widget=forms.CheckboxSelectMultiple,
             choices=choices_instruments, required=False
         )
 
         choices_stem = fetch_all_choices_for_type('STEM')
-        self.fields['parts'] = forms.MultipleChoiceField(
+        self.fields['stem'] = forms.MultipleChoiceField(
             label='Stem',
             widget=forms.CheckboxSelectMultiple,
             choices=choices_stem, required=False
