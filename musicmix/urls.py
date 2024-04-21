@@ -5,5 +5,6 @@ from .musicviews import mainviews, userviews
 urlpatterns = [
     path("", mainviews.index, name="index"),
     path("login", mainviews.login_user, name="login"),
-    path("labels", userviews.LabelRegistrationView.as_view())
+    path("labels", userviews.LabelRegistrationView.as_view()),
+    path("overview", userviews.OverviewView.as_view(), name="musicpieceoverview")
 ]

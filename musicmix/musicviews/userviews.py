@@ -6,6 +6,8 @@ from ..dao.profilerepo import find_or_create_profile
 from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
 from logging import info
 from django.contrib import messages
+from django.views.generic import ListView
+from ..models import MusicPiece
 
 
 # This function is way too long and can probably be written shorter
@@ -22,6 +24,17 @@ def populate_form(user: User):
         data[key] = label_value_list
 
     return data
+
+
+class OverviewView(ListView):
+    model = MusicPiece
+    paginate_by = 5
+    ordering = ['title']
+    template_name = "musicmix/musicpieceoverview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class LabelRegistrationView(View):
