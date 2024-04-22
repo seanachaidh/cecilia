@@ -25,3 +25,15 @@ ul.messages {
         background-color: #c18282;
     }
 }
+
+.pagination {
+    .current {
+        text-align: center;
+    }
+    .next {
+        text-align: right;
+    }
+    .previous {
+        text-align: left;
+    }
+}
