@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from ..dao.profilerepo import find_or_create_profile
 from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
+from ..dao.musicrepo import get_active_music_pieces_for_profile
 from logging import info
 from django.contrib import messages
 from django.views.generic import ListView
@@ -37,6 +38,23 @@ class OverviewView(ListView):
         return context
 
 
+class MyPiecesView(ListView):
+    paginate_by = 5
+    ordering = ['title']
+    template_name = "musicmix/musicpieceoverview.html"
+
+    def get_queryset(self):
+        current_user = self.request.user
+        profile = find_or_create_profile(current_user)
+        return get_active_music_pieces_for_profile(profile)
+
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('login')
+        else:
+            return super().get(request, *args, **kwargs)
+
+
 class LabelRegistrationView(View):
 
     def get(self, request):
@@ -48,8 +66,8 @@ class LabelRegistrationView(View):
         form = LabelRegistrationForm(request.POST)
         if form.is_valid():
             # These are all ID's of labels
-            stem = form.cleaned_data.get('parts')
-            instruments = form.cleaned_data.get('instruments')
+            stem = form.cleaned_data.get('stem')
+            instruments = form.cleaned_data.get('instrument')
 
             stem_objects = get_labels_from_ids(stem)
             instrument_objects = get_labels_from_ids(instruments)

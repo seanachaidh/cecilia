@@ -19,10 +19,14 @@ ul.messages {
     list-style: none;
     color: black;
     li {
-        padding: 1.5em;
+        padding: 1.1em;
     }
     li.error {
         background-color: #c18282;
+    }
+    li.info {
+        background-color: #28a745;
+        color: white;
     }
 }
 
