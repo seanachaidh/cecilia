@@ -1,6 +1,7 @@
 from django import forms
 from .dao.labelrepo import fetch_all_choices_for_type
 from .models import Label
+from .widgets import ChipWidget
 
 
 class LoginForm(forms.Form):
@@ -15,14 +16,14 @@ class LabelRegistrationForm(forms.Form):
         choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
         self.fields['instrument'] = forms.MultipleChoiceField(
             label='Instrumenten',
-            widget=forms.CheckboxSelectMultiple,
+            widget=ChipWidget,
             choices=choices_instruments, required=False
         )
 
         choices_stem = fetch_all_choices_for_type('STEM')
         self.fields['stem'] = forms.MultipleChoiceField(
             label='Stem',
-            widget=forms.CheckboxSelectMultiple,
+            widget=ChipWidget,
             choices=choices_stem, required=False
         )
 

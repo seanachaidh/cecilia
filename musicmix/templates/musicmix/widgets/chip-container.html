@@ -1,0 +1,9 @@
+<div class="chip-container">
+    {% for group, options, index in widget.optgroups %}
+    {% for option in options %}
+    <div>
+        {% include option.template_name with widget=option %}
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
