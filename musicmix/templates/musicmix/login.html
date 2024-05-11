@@ -1,12 +1,27 @@
 {% extends "./base.html" %}
 {% block content %}
-    <h3>Gelieve u in te loggen</h3>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Inloggen</button>
-
-    </form>
-
+    <div class="login-container">
+        <div class="login-form">
+            <h3>Gelieve u in te loggen</h3>
+    
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Inloggen</button>
+        
+            </form>
+        </div>
+    </div>
 {% endblock content %}
+{% block styles %}
+    <style>
+        .login-form {
+            width: 50%;
+            padding: 1em;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+{% endblock styles %}
