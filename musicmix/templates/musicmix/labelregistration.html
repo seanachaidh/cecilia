@@ -1,11 +1,18 @@
 {% extends "./base.html" %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Opslaan</button>
-    </form>
-    
+    <div class="row">
+        <div class="column">
+            Dit is een test
+        </div>
+        <div class="column">
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Opslaan</button>
+            </form>
+        </div>
+        
+    </div>
 {% endblock content %}
 
 {% block styles %}

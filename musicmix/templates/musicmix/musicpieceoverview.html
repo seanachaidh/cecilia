@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th>Naam</th>
-            <th>Active</th>
+            <th class="right-align">Acties</th>
         </tr>
     </thead>
     
@@ -16,8 +16,9 @@
     {% for piece in page_obj %}
         <tr>
             <td>{{ piece.title }}</td>
-            <!-- Turn this into a checkbox -->
-            <td>{{ piece.active }}</td>
+            <td class="right-align">
+                <a type="button" class="button" href="/musicmix/download/{{ piece.id }}">Download</a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
@@ -39,6 +40,6 @@
     </div>
 
     <!-- ik weet niet waar ik dit moet zetten. is het niet beter om dit in een apart component te zetten?-->
-    <a href="/musicmix/download" class="mat-button md-filled-button" type="button">Download</a>
+    <a href="/musicmix/download" class="button" type="button">Download</a>
     
 {% endblock content %}

@@ -16,14 +16,14 @@ class LabelRegistrationForm(forms.Form):
         choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
         self.fields['instrument'] = forms.MultipleChoiceField(
             label='Instrumenten',
-            widget=ChipWidget,
+            widget=forms.CheckboxSelectMultiple,
             choices=choices_instruments, required=False
         )
 
         choices_stem = fetch_all_choices_for_type('STEM')
         self.fields['stem'] = forms.MultipleChoiceField(
             label='Stem',
-            widget=ChipWidget,
+            widget=forms.CheckboxSelectMultiple,
             choices=choices_stem, required=False
         )
 

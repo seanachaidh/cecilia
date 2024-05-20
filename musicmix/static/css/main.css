@@ -42,6 +42,11 @@ ul.messages {
     }
 }
 
+/* classes d'outils */
+.right-align {
+    text-align: right;
+}
+
 /* inspiration from W3Schools */
 
 .chip-container {
