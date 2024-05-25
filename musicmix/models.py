@@ -21,7 +21,7 @@ class Label(models.Model):
 
 class MusicPiece(models.Model):
     title = models.CharField(max_length=200)
-    file = models.FileField()
+    file = models.FileField(upload_to='uploads')
     labels = models.ManyToManyField(Label)
     active = models.BooleanField(default=False)
 

@@ -23,16 +23,14 @@ def download_specific_file(request, file_id):
     current_user = request.user
     if current_user.is_authenticated:
         profile = find_or_create_profile(current_user)
-        files = list(get_all_files_for_profile(profile))
-        found_files = files.filter(lambda x: x.id == file_id)
-        if len(found_files) != 1:
+        file = get_file_for_profile_by_id(profile, file_id)
+        if file is None:
             return HttpResponse('Not found', status=404)
         else:
             # Ici on prépare le ficier à télécharger
-            f = found_files[0]
-            filename = extract_file_name(f)
+            filename = file.file.name
             download = open(filename, 'rb')
-            return FileResponse(download, as_attachement=True)        
+            return FileResponse(download, as_attachment=True)        
     else:
         return HttpResponse('Unauthorized', status=401);
 
