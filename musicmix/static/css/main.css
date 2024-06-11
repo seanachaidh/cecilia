@@ -6,6 +6,11 @@ body {
     .navigation-list {
         list-style: none;
     }
+
+    .navigation-link {
+        padding: 1em;
+    }
+
     padding: 1em;
     background-color: #f4f5f6;
 }

@@ -8,6 +8,10 @@ class LoginForm(forms.Form):
     username = forms.CharField(label="username", max_length=20, required=True)
     password = forms.CharField(label="password", max_length=255, required=True)
 
+class UserCreationForm(forms.Form):
+    username = forms.CharField(label="Gebruikersnaam", max_length=20, required=True)
+    email = forms.EmailField(label="E-mail", required=True)
+    is_admin = forms.BooleanField(label="Is administrator", required=False)
 
 class LabelRegistrationForm(forms.Form):
 
