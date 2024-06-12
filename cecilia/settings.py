@@ -11,20 +11,33 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(env_path)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8+5k5)0#^0t^xyjh)9yx)8sp1j2f*fr)3m6p#-&%v88(y($a-c'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-8+5k5)0#^0t^xyjh)9yx)8sp1j2f*fr)3m6p#-&%v88(y($a-c')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+django_host = os.environ.get('DJANGO_ALLOWED_HOSTS')
+#hostname gevonden
+
+if django_host is not None:
+    ALLOWED_HOSTS = [
+        django_host
+    ]
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,6 +90,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'mysql': {
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': os.environ.get('DJANGO_DATABASE_USER'),
+        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
+        'NAME': os.environ.get('DJANGO_DB_NAME'),
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
