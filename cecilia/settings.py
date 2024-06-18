@@ -142,6 +142,12 @@ static_dir = os.environ.get('DJANGO_STATIC_DIR')
 if static_dir is not None:
     STATICFILES_DIRS = [static_dir]
 
+#Code pour configurer static_root
+var_static_root = os.environ.get('DJANGO_STATIC_ROOT')
+if var_static_root is not None:
+    STATIC_ROOT = var_static_root
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
