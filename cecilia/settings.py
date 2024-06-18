@@ -136,6 +136,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Configurer static file dir.
+static_dir = os.environ.get('DJANGO_STATIC_DIR')
+
+if static_dir is not None:
+    STATICFILES_DIR = (static_dir)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
