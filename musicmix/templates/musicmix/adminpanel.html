@@ -1,6 +1,7 @@
 {% extends "./base.html" %}
 {% block content %}
 
+<button>Toevoegen</button>
 
 <table>
     <thead>
@@ -12,7 +13,7 @@
     <tbody>
         {% for u in users %}
             <tr>
-                <td>{{u.name}}</td>
+                <td>{{u.user.username}}</td>
                 <td class="right-align">
                     <button>Verwijderen</button>
                 </td>

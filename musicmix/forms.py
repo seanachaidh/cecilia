@@ -1,7 +1,6 @@
 from django import forms
 from .dao.labelrepo import fetch_all_choices_for_type
 from .models import Label
-from .widgets import ChipWidget
 
 
 class LoginForm(forms.Form):
