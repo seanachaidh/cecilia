@@ -1,11 +1,17 @@
 from django import forms
 from .dao.labelrepo import fetch_all_choices_for_type
 from .models import Label
+from django.forms.widgets import PasswordInput
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="username", max_length=20, required=True)
-    password = forms.CharField(label="password", max_length=255, required=True)
+    password = forms.CharField(label="password", max_length=255, required=True, widget=PasswordInput)
+    
+class PasswordResetForm(forms.Form):
+    new_password = forms.CharField(label="Nieuw wachtwoord", widget=PasswordInput)
+    retype_new_password = forms.CharField(label="Nieuw wachtwoord hertypen", widget=PasswordInput)
+    
 
 class UserCreationForm(forms.Form):
     username = forms.CharField(label="Gebruikersnaam", max_length=20, required=True)
