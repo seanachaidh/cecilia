@@ -11,7 +11,9 @@ class LoginForm(forms.Form):
 class PasswordResetForm(forms.Form):
     new_password = forms.CharField(label="Nieuw wachtwoord", widget=PasswordInput)
     retype_new_password = forms.CharField(label="Nieuw wachtwoord hertypen", widget=PasswordInput)
-    
+
+class PasswordResetInitForm(forms.Form):
+    email = forms.EmailField(label="Email", required=True, widget=forms.EmailInput)
 
 class UserCreationForm(forms.Form):
     username = forms.CharField(label="Gebruikersnaam", max_length=20, required=True)

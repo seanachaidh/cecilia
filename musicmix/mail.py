@@ -17,7 +17,7 @@ class Email:
 class EmailSender:
     def __init__(self):
         self.hostname = settings.EMAIL_HOST
-        self.client = smtplib.SMTP_SSL(self.hostname, 587)
+        self.client = smtplib.SMTP_SSL(self.hostname, 465)
         # TODO moet ik ervoor zorgen dat de login aan blijft staan?
         self._login_and_init()
     def _login_and_init(self):
