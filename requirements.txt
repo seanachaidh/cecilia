@@ -1,4 +1,3 @@
 django
-django-smtp-ssl
 python-dotenv
 mysqlclient
