@@ -36,3 +36,4 @@ class Profile(models.Model):
 class PasswordReset(models.Model):
     token = models.CharField(max_length=20)
     user = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)
+    active = models.BooleanField(default=True)
