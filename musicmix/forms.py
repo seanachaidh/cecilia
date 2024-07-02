@@ -3,7 +3,6 @@ from .dao.labelrepo import fetch_all_choices_for_type
 from .models import Label
 from django.forms.widgets import PasswordInput
 
-
 class LoginForm(forms.Form):
     username = forms.CharField(label="username", max_length=20, required=True)
     password = forms.CharField(label="password", max_length=255, required=True, widget=PasswordInput)
@@ -11,6 +10,18 @@ class LoginForm(forms.Form):
 class PasswordResetForm(forms.Form):
     new_password = forms.CharField(label="Nieuw wachtwoord", widget=PasswordInput)
     retype_new_password = forms.CharField(label="Nieuw wachtwoord hertypen", widget=PasswordInput)
+    password_token = forms.HiddenInput()
+
+    def clean(self):
+        cleaned_data = super(PasswordResetForm, self).clean()
+        value1 = cleaned_data.get('new_password')
+        value2 = cleaned_data.get('retype_new_password')
+
+        #TODO Show validation errors in form
+        if value1 != value2:
+            raise forms.ValidationError("De twee wachtwoorden moeten gelijk zijn")
+        return cleaned_data
+
 
 class PasswordResetInitForm(forms.Form):
     email = forms.EmailField(label="Email", required=True, widget=forms.EmailInput)

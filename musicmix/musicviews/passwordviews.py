@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
-from ..forms import PasswordResetInitForm
+from ..forms import PasswordResetInitForm, PasswordResetForm
 from ..mail import *
 from ..models import PasswordReset
 from ..dao.profilerepo import find_or_create_profile
@@ -47,5 +47,19 @@ def password_reset_post(email, request):
 
 
 def password_reset_confirm(request, password_token: str):
-    pass
+    # Search for token
+    token = get_object_or_404(PasswordReset, token=password_token, active=True)
+    # Token found. Prepare password reset
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            # Fetch user
+            user = token.user.user
+            user.set_password(form.cleaned_data['new_password'])
+            user.save()
+            # After that redirect to login page
+            return redirect(reverse('login'))
+    else:
+        form = PasswordResetForm(initial={'password_token': password_token})
+        return render(request, 'musicmix/basic_form.html', {'form': form})
 
