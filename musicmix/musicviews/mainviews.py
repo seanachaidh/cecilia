@@ -1,5 +1,5 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 
 from musicmix.forms import LoginForm
@@ -12,6 +12,14 @@ def index(request):
         return redirect('login')
 
     return render(request, template_name='musicmix/index.html')
+
+
+def logout_user(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login'))
+    logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect(reverse('login'))
 
 
 def login_user(request):

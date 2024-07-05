@@ -29,7 +29,7 @@ ul.messages {
     li.error {
         background-color: #c18282;
     }
-    li.info {
+    li.info, li.success {
         background-color: #28a745;
         color: white;
     }

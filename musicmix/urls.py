@@ -7,6 +7,7 @@ urlpatterns = [
     path("admin", adminviews.show_admin_panel, name="admin"),
     path("admin/createuser", adminviews.add_user, name="creatuser"),
     path("login", mainviews.login_user, name="login"),
+    path("logout", mainviews.logout_user, name="logout"),
     path("labels", userviews.LabelRegistrationView.as_view()),
     path("overview", userviews.OverviewView.as_view(), name="musicpieceoverview"),
     path("download", downloader.download_file, name="download"),

@@ -57,6 +57,8 @@ def password_reset_confirm(request, password_token: str):
             user = token.user.user
             user.set_password(form.cleaned_data['new_password'])
             user.save()
+            token.active = False
+            token.save()
             # After that redirect to login page
             return redirect(reverse('login'))
     else:
