@@ -1,21 +1,27 @@
 {% extends "./base.html" %}
 {% block content %}
 
-<button>Toevoegen</button>
+<a class="button" href="admin/createuser">Toevoegen</a>
 
 <table>
     <thead>
         <tr>
             <th> Username </th>
+            <th> Email </th>
             <th class="right-align"> Acties </th>
         </tr>
     </thead>
     <tbody>
         {% for u in users %}
             <tr>
-                <td>{{u.user.username}}</td>
+                <td>{{ u.username}}</td>
+                <td>{{ u.email }}</td>
                 <td class="right-align">
-                    <button>Verwijderen</button>
+                    <form class="single-button-form" method="post" action="admin/deleteuser/{{ u.pk }}">
+                        {% csrf_token %}
+                        <button type="submit">Verwijderen</button>
+                    </form>
+                    
                 </td>
             </tr>
         {% endfor %}
