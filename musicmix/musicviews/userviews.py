@@ -2,6 +2,7 @@ from django.views import View
 from ..forms import LabelRegistrationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from ..dao.profilerepo import find_or_create_profile
 from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
 from ..dao.musicrepo import get_active_music_pieces_for_profile
@@ -12,6 +13,7 @@ from ..models import MusicPiece
 
 
 # This function is way too long and can probably be written shorter
+@login_required(login_url='login')
 def populate_form(user: User):
     data = dict()
     profile = find_or_create_profile(user)
@@ -26,7 +28,7 @@ def populate_form(user: User):
 
     return data
 
-
+@login_required(login_url='login')
 class OverviewView(ListView):
     model = MusicPiece
     paginate_by = 5
@@ -37,7 +39,7 @@ class OverviewView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-
+@login_required(login_url='login')
 class MyPiecesView(ListView):
     paginate_by = 5
     ordering = ['title']
@@ -49,12 +51,10 @@ class MyPiecesView(ListView):
         return get_active_music_pieces_for_profile(profile)
 
     def get(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('login')
-        else:
-            return super().get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
 
+@login_required(login_url='login')
 class LabelRegistrationView(View):
 
     def get(self, request):

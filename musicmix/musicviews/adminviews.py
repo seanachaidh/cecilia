@@ -2,12 +2,15 @@ from django.shortcuts import redirect, render, reverse
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import user_passes_test
+from authutils import is_superuser
 
 from ..forms import UserCreationForm
 from ..models import *
 from random import randint
 
 # TODO maak hier een paged list view van
+@user_passes_test(is_superuser)
 def show_admin_panel(request):
     check = perform_auth_check(request)
     if not check:
@@ -19,12 +22,14 @@ def show_admin_panel(request):
     return render(request=request, template_name='musicmix/adminpanel.html', context=admin_context)
     
 @require_POST
+@user_passes_test(is_superuser)
 def remove_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.delete()
     return redirect(reverse('admin'))
 
 
+@user_passes_test(is_superuser)
 def add_user(request):
     check = perform_auth_check(request)
     if not check:

@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from ..forms import PasswordResetInitForm, PasswordResetForm
-from ..mail import *
 from ..models import PasswordReset
 from ..dao.profilerepo import find_or_create_profile
 

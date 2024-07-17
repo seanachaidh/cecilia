@@ -1,19 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 
 from musicmix.forms import LoginForm
 
-
-# Create your views here.
+@login_required(login_url='login')
 def index(request):
-    # If the user is not authenticated, the user must first log in
-    if not request.user.is_authenticated:
-        return redirect('login')
-
     return render(request, template_name='musicmix/index.html')
 
-
+@login_required(login_url='login')
 def logout_user(request):
     if not request.user.is_authenticated:
         return redirect(reverse('login'))

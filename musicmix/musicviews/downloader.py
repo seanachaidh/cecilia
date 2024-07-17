@@ -3,11 +3,12 @@ from ..dao.profilerepo import find_or_create_profile
 import zipfile
 from logging import info
 from django.http import FileResponse, HttpResponse
+from django.contrib.auth.decorators import login_required
 import os.path as p
 import tempfile
 
 
-
+@login_required(login_url='login')
 def download_file(request):
     current_user = request.user
     if current_user.is_authenticated:
@@ -19,6 +20,7 @@ def download_file(request):
     return FileResponse(None)
 
 
+@login_required(login_url='login')
 def download_specific_file(request, file_id):
     current_user = request.user
     if current_user.is_authenticated:
