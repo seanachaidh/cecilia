@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import user_passes_test
-from authutils import is_superuser
+from .authutils import is_superuser
 
 from ..forms import UserCreationForm
 from ..models import *

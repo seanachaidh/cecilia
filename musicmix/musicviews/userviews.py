@@ -2,7 +2,9 @@ from django.views import View
 from ..forms import LabelRegistrationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from ..dao.profilerepo import find_or_create_profile
 from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
 from ..dao.musicrepo import get_active_music_pieces_for_profile
@@ -28,22 +30,22 @@ def populate_form(user: User):
 
     return data
 
-@login_required(login_url='login')
-class OverviewView(ListView):
+class OverviewView(LoginRequiredMixin, ListView):
     model = MusicPiece
     paginate_by = 5
     ordering = ['title']
     template_name = "musicmix/musicpieceoverview.html"
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-@login_required(login_url='login')
-class MyPiecesView(ListView):
+    
+class MyPiecesView(LoginRequiredMixin, ListView):
     paginate_by = 5
     ordering = ['title']
     template_name = "musicmix/musicpieceoverview.html"
+    login_url = 'login'
 
     def get_queryset(self):
         current_user = self.request.user
@@ -53,9 +55,8 @@ class MyPiecesView(ListView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
-
-@login_required(login_url='login')
-class LabelRegistrationView(View):
+class LabelRegistrationView(LoginRequiredMixin, View):
+    login_url = 'login'
 
     def get(self, request):
         d = populate_form(request.user)
