@@ -5,3 +5,5 @@
 .env
 .env.production
 *.pyc
+*.DS_Store
+
