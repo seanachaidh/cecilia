@@ -2,6 +2,14 @@ services:
   web:
     build: .
     image: cecilia
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /code
+        - action: rebuild
+          path: requirements.txt
+          
     ports:
       - 8000:8000
     depends_on:
@@ -22,3 +30,8 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+  mail:
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025

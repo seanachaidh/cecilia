@@ -19,7 +19,7 @@ class PasswordResetForm(forms.Form):
 
         #TODO Show validation errors in form
         if value1 != value2:
-            raise forms.ValidationError("De twee wachtwoorden moeten gelijk zijn")
+            raise forms.ValidationError("De wachtwoorden moeten gelijk zijn")
         return cleaned_data
 
 

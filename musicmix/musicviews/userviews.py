@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from ..dao.profilerepo import find_or_create_profile
 from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
 from ..dao.musicrepo import get_active_music_pieces_for_profile
