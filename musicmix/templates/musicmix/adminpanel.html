@@ -27,5 +27,19 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="row">
+    {% for t, l, _ in label_types %}
+        <div class="column">
+            {{l}}
+            <form method="post" action="/musicmix/labels/{{t}}/add">
+                {% csrf_token %}
+                <input type="text" name="nieuwe" id="nieuwe">
+                <button type="submit">
+                    Toevoegen
+                </button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock content %}

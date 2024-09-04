@@ -5,7 +5,13 @@ from ..models import Profile
 def fetch_all_labels():
     Label.objects.all()
 
-
+def collect_labels():
+    result = []
+    choices = Label.label_types()
+    for c, l in choices:
+        labels = fetch_all_choices_for_type((c, l))
+        result.append((c, l, labels))
+    return result
 def fetch_all_choices_for_type(label_type):
     result_list = []
     result = Label.objects.filter(label_type=label_type)

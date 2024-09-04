@@ -14,7 +14,7 @@ from ..models import MusicPiece
 
 
 # This function is way too long and can probably be written shorter
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def populate_form(user: User):
     data = dict()
     profile = find_or_create_profile(user)

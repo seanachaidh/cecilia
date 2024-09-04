@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -158,6 +159,13 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
     }
 }
+
+#TODO werkt dit voor de logging?
+if DEBUG:
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s %(levelname)s %(message)s'
+    )
 
 # EMAIL SETTINGS
 # EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'

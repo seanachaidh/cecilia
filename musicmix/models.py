@@ -13,6 +13,10 @@ class Label(models.Model):
     text = models.CharField(max_length=200)
     label_type = models.CharField(max_length=25, choices=LabelType.choices)
 
+    @staticmethod
+    def label_types():
+        return Label.LabelType.choices
+
     def __str__(self) -> str:
         lower_type = self.label_type.lower().__str__()
         label_text = self.text.__str__()

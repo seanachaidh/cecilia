@@ -10,6 +10,7 @@ urlpatterns = [
     path("login", mainviews.login_user, name="login"),
     path("logout", mainviews.logout_user, name="logout"),
     path("labels", userviews.LabelRegistrationView.as_view()),
+    path("labels/<str:label_type>/add", adminviews.add_label),
     path("overview", userviews.OverviewView.as_view(), name="musicpieceoverview"),
     path("download", downloader.download_file, name="download"),
     path("download/<int:file_id>", downloader.download_specific_file, name="download_specific"),
