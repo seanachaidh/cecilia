@@ -52,6 +52,10 @@ ul.messages {
     text-align: right;
 }
 
+.float-right {
+    float: right;
+}
+
 /* inspiration from W3Schools */
 
 .chip-container {

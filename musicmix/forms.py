@@ -31,6 +31,20 @@ class UserCreationForm(forms.Form):
     email = forms.EmailField(label="E-mail", required=True)
     is_admin = forms.BooleanField(label="Is administrator", required=False)
 
+class PieceCreationForm(forms.Form):
+    title = forms.CharField(label="Titel", max_length=100)
+    file = forms.FileField()
+    
+    def __init__(self, data=None):
+        super(PieceCreationForm, self).__init__(data=data)
+        labels = Label.objects.all()
+        choices = [(x.) for x in labels]
+        self.fields['labels'] = forms.MultipleChoiceField(
+            Label="labels",
+            widget=forms.CheckboxSelectMultiple,
+            choices=
+        )
+
 class LabelRegistrationForm(forms.Form):
 
     def __init__(self, data=None):

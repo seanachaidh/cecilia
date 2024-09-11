@@ -14,14 +14,13 @@ from ..dao.labelrepo import collect_labels
 # TODO maak hier een paged list view van
 @user_passes_test(is_superuser)
 def show_admin_panel(request):
-    check = perform_auth_check(request)
-    if not check:
-        return check
+    pieces = MusicPiece.objects.all()
     users = User.objects.all()
     label_types = collect_labels()
     admin_context = {
         "label_types": label_types,
-        "users": users
+        "users": users,
+        "pieces": pieces
     }
     return render(request=request, template_name='musicmix/adminpanel.html', context=admin_context)
     
@@ -38,6 +37,10 @@ def add_label(request, label_type):
     naam = request.POST.get("nieuwe")
     info('nieuw label met naam: ' + naam)
     return redirect(reverse('admin'))
+
+@user_passes_test(is_superuser)
+def add_piece(request):
+    pass
 
 @user_passes_test(is_superuser)
 def add_user(request):

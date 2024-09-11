@@ -1,8 +1,28 @@
 {% extends "./base.html" %}
 {% block content %}
 
-<a class="button" href="admin/createuser">Toevoegen</a>
 
+<h3>Behren muziekstukken</h3>
+<a class="button float-right" href="admin/createpiece">Toevoegen</a>
+<table>
+    <thead>
+        <tr>
+            <th> titel </th>
+            <th class="right-align"> acties </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for piece in pieces %}
+            <tr>
+                <td>{{piece.title}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<h3>Beheren gebruikers</h3> 
+<a class="button float-right" href="admin/createuser">Toevoegen</a>
 <table>
     <thead>
         <tr>
@@ -14,7 +34,7 @@
     <tbody>
         {% for u in users %}
             <tr>
-                <td>{{ u.username}}</td>
+                <td>{{ u.username }}</td>
                 <td>{{ u.email }}</td>
                 <td class="right-align">
                     <form class="single-button-form" method="post" action="admin/deleteuser/{{ u.pk }}">
