@@ -48,9 +48,15 @@
     </tbody>
 </table>
 <div class="row">
-    {% for t, l, _ in label_types %}
+    {% for t, l, z in label_types %}
         <div class="column">
             {{l}}
+            <ul>
+                {% for _, text in z %}
+                    <li>{{text}}</li>
+                {% endfor %}
+            </ul>
+
             <form method="post" action="/musicmix/labels/{{t}}/add">
                 {% csrf_token %}
                 <input type="text" name="nieuwe" id="nieuwe">

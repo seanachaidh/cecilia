@@ -7,6 +7,7 @@ urlpatterns = [
     path("admin", adminviews.show_admin_panel, name="admin"),
     path("admin/createuser", adminviews.add_user, name="creatuser"),
     path("admin/deleteuser/<int:user_id>", adminviews.remove_user, name="remove_user"),
+    path("admin/createpiece", adminviews.add_piece, name="add_piece"),
     path("login", mainviews.login_user, name="login"),
     path("logout", mainviews.logout_user, name="logout"),
     path("labels", userviews.LabelRegistrationView.as_view()),

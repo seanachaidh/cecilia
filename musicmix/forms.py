@@ -33,16 +33,16 @@ class UserCreationForm(forms.Form):
 
 class PieceCreationForm(forms.Form):
     title = forms.CharField(label="Titel", max_length=100)
-    file = forms.FileField()
+    file = forms.FileField(label="Bestand")
     
     def __init__(self, data=None):
         super(PieceCreationForm, self).__init__(data=data)
         labels = Label.objects.all()
-        choices = [(x.) for x in labels]
+        choices = [(x.label_type, x.text) for x in labels]
         self.fields['labels'] = forms.MultipleChoiceField(
-            Label="labels",
+            label="labels",
             widget=forms.CheckboxSelectMultiple,
-            choices=
+            choices=choices
         )
 
 class LabelRegistrationForm(forms.Form):

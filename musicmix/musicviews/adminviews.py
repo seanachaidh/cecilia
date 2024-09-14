@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .authutils import is_superuser
 from logging import info
 
-from ..forms import UserCreationForm
+from ..forms import UserCreationForm, PieceCreationForm
 from ..models import *
 from random import randint
 from ..dao.labelrepo import collect_labels
@@ -40,13 +40,15 @@ def add_label(request, label_type):
 
 @user_passes_test(is_superuser)
 def add_piece(request):
-    pass
+    if request.method == 'POST':
+        pass
+    else:
+        #Wanneer het get is
+        form = PieceCreationForm()
+    return render(request, 'musicmix/basic_form.html', {"form": form})
 
 @user_passes_test(is_superuser)
 def add_user(request):
-    check = perform_auth_check(request)
-    if not check:
-        return check
     if request.method == 'POST':
         # Ajouter un utilisateur
         form = UserCreationForm(request.POST)
