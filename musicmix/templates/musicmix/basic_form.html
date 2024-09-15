@@ -1,12 +1,13 @@
 {% extends "./base.html" %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" {% if is_file %} enctype="multipart/form-data" {% endif %}>
         {% csrf_token %}
-        {{form}}
+        {{form.as_p}}
         <div>
             <!-- TODO I need to be able to change the text of this button -->
             <button type="submit">Bevestigen</button>
+            <button type="button">Annuleren</button>
         </div>
     </form>
 {% endblock content %}

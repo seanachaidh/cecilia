@@ -15,6 +15,10 @@
         {% for piece in pieces %}
             <tr>
                 <td>{{piece.title}}</td>
+                <td class="right-align">
+                    <button>Wijzigen</button>
+                    <a class="button" href="admin/deletepiece/{{piece.id}}">Verwijderen</a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

@@ -36,16 +36,41 @@ def remove_user(request, user_id):
 def add_label(request, label_type):
     naam = request.POST.get("nieuwe")
     info('nieuw label met naam: ' + naam)
+    
+    #label maken
+    label = Label()
+    label.label_type = label_type
+    label.text = naam
+    label.save()
+    
     return redirect(reverse('admin'))
 
 @user_passes_test(is_superuser)
 def add_piece(request):
     if request.method == 'POST':
-        pass
+        form = PieceCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            piece = MusicPiece()
+            piece.active = True #Maak hiervan nog een aanpasbare boolean
+            piece.file = form.cleaned_data.get("file")
+            piece.title = form.cleaned_data.get('title')
+            piece.save()
+            fetched_labels = Label.objects.filter(label_type__in=form.cleaned_data.get('labels'))
+            piece.labels.set(fetched_labels)
+            piece.save()
+            
+            # Perfect bewaard. Terug naar admin
+            return redirect(reverse('admin'))
     else:
         #Wanneer het get is
         form = PieceCreationForm()
-    return render(request, 'musicmix/basic_form.html', {"form": form})
+    return render(request, 'musicmix/basic_form.html', {"form": form, "is_file": True})
+
+@user_passes_test(is_superuser)
+def delete_piece(request, piece_id):
+    piece = MusicPiece.objects.get(pk=piece_id)
+    piece.delete()
+    return redirect(reverse('admin'))
 
 @user_passes_test(is_superuser)
 def add_user(request):

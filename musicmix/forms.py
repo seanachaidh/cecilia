@@ -35,8 +35,8 @@ class PieceCreationForm(forms.Form):
     title = forms.CharField(label="Titel", max_length=100)
     file = forms.FileField(label="Bestand")
     
-    def __init__(self, data=None):
-        super(PieceCreationForm, self).__init__(data=data)
+    def __init__(self, data=None, files=None):
+        super(PieceCreationForm, self).__init__(data=data, files=files)
         labels = Label.objects.all()
         choices = [(x.label_type, x.text) for x in labels]
         self.fields['labels'] = forms.MultipleChoiceField(

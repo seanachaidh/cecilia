@@ -9,7 +9,7 @@ def collect_labels():
     result = []
     choices = Label.label_types()
     for c, l in choices:
-        labels = fetch_all_choices_for_type((c, l))
+        labels = fetch_all_choices_for_type(c)
         result.append((c, l, labels))
     return result
 def fetch_all_choices_for_type(label_type):
