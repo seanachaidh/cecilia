@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .authutils import is_superuser
 from logging import info
 
-from ..forms import UserCreationForm, PieceCreationForm
+from ..forms import UserCreationForm, PieceCreationForm, UserUpdateForm
 from ..models import *
 from random import randint
 from ..dao.labelrepo import collect_labels
@@ -97,6 +97,21 @@ def add_user(request):
         form = UserCreationForm()
     return render(request, 'musicmix/basic_form.html', {"form": form})
     
+def update_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            user.is_superuser = form.is_admin
+            user.email = form.email
+            user.save()
+            return redirect(reverse('admin'))
+    else:
+        form = UserUpdateForm(
+            is_admin=user.is_superuser,
+            email=user.email
+        )
+    return render(request, 'musicmix/basic_form.html', {'form': form})
 
 def perform_auth_check(request):
     if not request.user.is_authenticated:

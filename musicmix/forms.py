@@ -31,6 +31,10 @@ class UserCreationForm(forms.Form):
     email = forms.EmailField(label="E-mail", required=True)
     is_admin = forms.BooleanField(label="Is administrator", required=False)
 
+class UserUpdateForm(forms.Form):
+    email = forms.EmailField(label="E-mail", required=True)
+    is_admin = forms.BooleanField(label="Is administrator", required=False)
+
 class PieceCreationForm(forms.Form):
     title = forms.CharField(label="Titel", max_length=100)
     file = forms.FileField(label="Bestand")
