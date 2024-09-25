@@ -85,4 +85,5 @@ ul.messages {
 
 .single-button-form {
     margin-bottom: 0;
+    display: inline;
 }

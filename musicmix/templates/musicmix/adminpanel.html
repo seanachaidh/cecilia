@@ -16,7 +16,7 @@
             <tr>
                 <td>{{piece.title}}</td>
                 <td class="right-align">
-                    <button>Wijzigen</button>
+                    <a class="button" href="#">Wijzigen</a>
                     <a class="button" href="admin/deletepiece/{{piece.id}}">Verwijderen</a>
                 </td>
             </tr>
@@ -41,6 +41,7 @@
                 <td>{{ u.username }}</td>
                 <td>{{ u.email }}</td>
                 <td class="right-align">
+                    <a class="button" href="#">Wijzigen</a>
                     <form class="single-button-form" method="post" action="admin/deleteuser/{{ u.pk }}">
                         {% csrf_token %}
                         <button type="submit">Verwijderen</button>
