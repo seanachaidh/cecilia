@@ -16,7 +16,7 @@
             <tr>
                 <td>{{piece.title}}</td>
                 <td class="right-align">
-                    <a class="button" href="#">Wijzigen</a>
+                    <a class="button" href="admin/editpiece/{{piece.id}}">Wijzigen</a>
                     <a class="button" href="admin/deletepiece/{{piece.id}}">Verwijderen</a>
                 </td>
             </tr>
@@ -56,9 +56,9 @@
     {% for t, l, z in label_types %}
         <div class="column">
             {{l}}
-            <ul>
-                {% for _, text in z %}
-                    <li>{{text}}</li>
+            <ul class="label-list">
+                {% for i, text in z %}
+                    <li>{{text}} <span class="list-button"><a class="button" href="/musicmix/labels/delete/{{i}}">Verwijder</a></span></li>
                 {% endfor %}
             </ul>
 

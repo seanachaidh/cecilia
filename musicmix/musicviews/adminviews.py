@@ -46,6 +46,13 @@ def add_label(request, label_type):
     return redirect(reverse('admin'))
 
 @user_passes_test(is_superuser)
+def remove_label(request, label_id):
+    #Wat met mogelijke muziekstukken gekoppeld aan labels?
+    label = Label.objects.get(pk=label_id)
+    label.delete()
+    return redirect(reverse('admin'))
+
+@user_passes_test(is_superuser)
 def add_piece(request):
     if request.method == 'POST':
         form = PieceCreationForm(request.POST, request.FILES)
@@ -71,6 +78,25 @@ def delete_piece(request, piece_id):
     piece = MusicPiece.objects.get(pk=piece_id)
     piece.delete()
     return redirect(reverse('admin'))
+
+@user_passes_test(is_superuser)
+def edit_piece(request, piece_id):
+    piece = MusicPiece.objects.get(pk=piece_id)
+    labels = piece.labels.values_list('id')
+    if request.method == 'POST':
+        pass
+    else:
+        title = piece.title
+        file = piece.file
+        data = {
+            "title": title,
+            "labels": labels
+        }
+        files = {
+            "file": file
+        }
+        form = PieceCreationForm(data=data, files=files)
+    return render(request, 'musicmix/basic_form.html', {"form": form, "is_file": True})
 
 @user_passes_test(is_superuser)
 def add_user(request):

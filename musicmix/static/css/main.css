@@ -87,3 +87,10 @@ ul.messages {
     margin-bottom: 0;
     display: inline;
 }
+
+.label-list {
+    list-style: none;
+}
+.list-button {
+    float: right;
+}
