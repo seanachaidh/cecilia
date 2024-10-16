@@ -43,6 +43,9 @@ class PieceEditForm(forms.Form):
         super(PieceEditForm, self).__init__(data=data, files=files)
         choices_instrument = self._fetch_labels('INSTRUMENT')
         choices_stem = self._fetch_labels('STEM')
+
+        choices_instrument = Label.objects.filter(label_type=Label.LabelType.INSTRUMENT)
+
         choices_sleutel = self._fetch_labels('SLEUTEL')
         self.fields['labels_stem'] = forms.MultipleChoiceField(
             label="Stem",
@@ -70,7 +73,13 @@ class PieceEditForm(forms.Form):
 class PieceCreationForm(PieceEditForm):
     file = forms.FileField(label="Bestand")
     
-    
+            self.fields['insrument'] = forms.MultipleChoiceField(
+            label='Instrument',
+            widget=forms.CheckboxSelectMultiple,
+            choices=choices_instrument
+        )
+        
+
 class LabelRegistrationForm(forms.Form):
 
     def __init__(self, data=None):
@@ -87,6 +96,13 @@ class LabelRegistrationForm(forms.Form):
             label='Stem',
             widget=forms.CheckboxSelectMultiple,
             choices=choices_stem, required=False
+        )
+
+        choice_key = fetch_all_choices_for_type('SLEUTEL')
+        self.fields['sleutel'] = forms.MultipleChoiceField(
+            label='Sleutel',
+            widget=forms.CheckboxSelectMultiple,
+            choices=choice_key, required=False
         )
 
     def populate(self, labels: list[Label]):
