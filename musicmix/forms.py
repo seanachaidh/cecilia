@@ -35,20 +35,42 @@ class UserUpdateForm(forms.Form):
     email = forms.EmailField(label="E-mail", required=True)
     is_admin = forms.BooleanField(label="Is administrator", required=False)
 
-class PieceCreationForm(forms.Form):
+    
+class PieceEditForm(forms.Form):
     title = forms.CharField(label="Titel", max_length=100)
-    file = forms.FileField(label="Bestand")
     
     def __init__(self, data=None, files=None):
-        super(PieceCreationForm, self).__init__(data=data, files=files)
-        labels = Label.objects.all()
-        choices = [(x.label_type, x.text) for x in labels]
-        self.fields['labels'] = forms.MultipleChoiceField(
-            label="labels",
+        super(PieceEditForm, self).__init__(data=data, files=files)
+        choices_instrument = self._fetch_labels('INSTRUMENT')
+        choices_stem = self._fetch_labels('STEM')
+        choices_sleutel = self._fetch_labels('SLEUTEL')
+        self.fields['labels_stem'] = forms.MultipleChoiceField(
+            label="Stem",
             widget=forms.CheckboxSelectMultiple,
-            choices=choices
+            choices=choices_stem,
+            required=False
         )
+        self.fields['labels_instrument'] = forms.MultipleChoiceField(
+            label="Instrumenten",
+            widget=forms.CheckboxSelectMultiple,
+            choices=choices_instrument,
+            required=False
+        )
+        self.fields['labels_sleutel'] = forms.MultipleChoiceField(
+            label="Sleutel",
+            widget=forms.widgets.CheckboxSelectMultiple,
+            choices=choices_sleutel,
+            required=False
+        )
+        
+    def _fetch_labels(self, label_type: str) -> list[tuple]:
+        l = Label.objects.filter(label_type=label_type)
+        return [(x.id, x.text) for x in l]
 
+class PieceCreationForm(PieceEditForm):
+    file = forms.FileField(label="Bestand")
+    
+    
 class LabelRegistrationForm(forms.Form):
 
     def __init__(self, data=None):

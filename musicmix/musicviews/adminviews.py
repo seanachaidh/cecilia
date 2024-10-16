@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import user_passes_test
+from django.core.files.uploadedfile import SimpleUploadedFile
 from .authutils import is_superuser
 from logging import info
 
@@ -84,16 +85,20 @@ def edit_piece(request, piece_id):
     piece = MusicPiece.objects.get(pk=piece_id)
     labels = piece.labels.values_list('id')
     if request.method == 'POST':
-        pass
+        form = PieceCreationForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            pass
     else:
         title = piece.title
         file = piece.file
+        file_content = file.read()
         data = {
             "title": title,
-            "labels": labels
+            "labels": labels,
+            "file": file
         }
         files = {
-            "file": file
+            "file": SimpleUploadedFile(file.name, file_content)
         }
         form = PieceCreationForm(data=data, files=files)
     return render(request, 'musicmix/basic_form.html', {"form": form, "is_file": True})

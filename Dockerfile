@@ -10,6 +10,8 @@ RUN apk add musl-dev
 RUN apk add gcc
 RUN apk add mariadb-connector-c-dev
 RUN pip install -r requirements.txt
+#Debug py installeren voor remote debugging
+RUN pip install --upgrade debugpy
 COPY . /code
 ENTRYPOINT [ "bash" ]
 CMD [ "docker_entrypoint.sh" ]
