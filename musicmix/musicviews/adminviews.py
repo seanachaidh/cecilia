@@ -63,7 +63,8 @@ def add_piece(request):
             piece.file = form.cleaned_data.get("file")
             piece.title = form.cleaned_data.get('title')
             piece.save()
-            fetched_labels = Label.objects.filter(label_type__in=form.cleaned_data.get('labels'))
+            labels = form.cleaned_data.get('labels')
+            fetched_labels = Label.objects.filter(label_type__in=labels)
             piece.labels.set(fetched_labels)
             piece.save()
             
