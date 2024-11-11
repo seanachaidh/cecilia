@@ -69,7 +69,7 @@ def add_piece(request):
             
             full_list = labels_instrument + labels_sleutel + labels_stem
             
-            fetched_labels = Label.objects.filter(label_type__in=full_list)
+            fetched_labels = Label.objects.filter(pk__in=full_list)
             piece.labels.set(fetched_labels)
             piece.save()
             

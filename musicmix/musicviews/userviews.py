@@ -10,7 +10,7 @@ from ..dao.musicrepo import get_active_music_pieces_for_profile
 from logging import info
 from django.contrib import messages
 from django.views.generic import ListView
-from ..models import MusicPiece
+from ..models import MusicPiece, Profile
 
 
 # This function is way too long and can probably be written shorter
@@ -49,10 +49,14 @@ class MyPiecesView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         current_user = self.request.user
         profile = find_or_create_profile(current_user)
-        return get_active_music_pieces_for_profile(profile)
+        return self._fetch_current_pieces(profile)
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+    def _fetch_current_pieces(self, profile: Profile):
+        labels = profile.labels.all()
+        return MusicPiece.objects.filter(active=True, labels__in=labels)
 
 class LabelRegistrationView(LoginRequiredMixin, View):
     login_url = 'login'
