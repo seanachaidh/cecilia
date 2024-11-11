@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 class Command(BaseCommand):
-    def handle(self, *args: Any, **options: Any) -> str | None:
+    def handle(self, *args: Any, **options: Any):
         is_debug = settings.DEBUG
         user_exists = User.objects.filter(is_superuser=True).exists()
         if not user_exists and is_debug:

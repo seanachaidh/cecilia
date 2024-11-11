@@ -1,15 +1,15 @@
-from django.views import View
-from ..forms import LabelRegistrationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from ..dao.profilerepo import find_or_create_profile
-from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
-from ..dao.musicrepo import get_active_music_pieces_for_profile
 from logging import info
+
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.views import View
 from django.views.generic import ListView
+
+from ..dao.labelrepo import fetch_labels_for_profile, get_labels_from_ids
+from ..dao.profilerepo import find_or_create_profile
+from ..forms import LabelRegistrationForm
 from ..models import MusicPiece, Profile
 
 

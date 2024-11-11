@@ -1,16 +1,17 @@
-from django.shortcuts import redirect, render, reverse
-from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import user_passes_test
-from django.core.files.uploadedfile import SimpleUploadedFile
-from .authutils import is_superuser
 from logging import info
+from random import randint
 
+from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.shortcuts import redirect, render, reverse
+from django.views.decorators.http import require_POST
+
+from .authutils import is_superuser
+from ..dao.labelrepo import collect_labels
 from ..forms import UserCreationForm, PieceCreationForm, UserUpdateForm
 from ..models import *
-from random import randint
-from ..dao.labelrepo import collect_labels
+
 
 # TODO maak hier een paged list view van
 @user_passes_test(is_superuser)
