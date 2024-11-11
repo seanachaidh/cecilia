@@ -59,27 +59,30 @@ def add_piece(request):
     if request.method == 'POST':
         form = PieceCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            piece = MusicPiece()
-            piece.active = True #Maak hiervan nog een aanpasbare boolean
-            piece.file = form.cleaned_data.get("file")
-            piece.title = form.cleaned_data.get('title')
-            piece.save()
-            labels_instrument = form.cleaned_data.get('labels_instrument')
-            labels_stem = form.cleaned_data.get('labels_stem')
-            labels_sleutel = form.cleaned_data.get('labels_sleutel')
-            
-            full_list = labels_instrument + labels_sleutel + labels_stem
-            
-            fetched_labels = Label.objects.filter(pk__in=full_list)
-            piece.labels.set(fetched_labels)
-            piece.save()
-            
+            save_piece(form)
+
             # Perfect bewaard. Terug naar admin
             return redirect(reverse('admin'))
     else:
         #Wanneer het get is
         form = PieceCreationForm()
     return render(request, 'musicmix/basic_form.html', {"form": form, "is_file": True})
+
+
+def save_piece(form):
+    piece = MusicPiece()
+    piece.active = True  # Maak hiervan nog een aanpasbare boolean
+    piece.file = form.cleaned_data.get("file")
+    piece.title = form.cleaned_data.get('title')
+    piece.save()
+    labels_instrument = form.cleaned_data.get('labels_instrument')
+    labels_stem = form.cleaned_data.get('labels_stem')
+    labels_sleutel = form.cleaned_data.get('labels_sleutel')
+    full_list = labels_instrument + labels_sleutel + labels_stem
+    fetched_labels = Label.objects.filter(pk__in=full_list)
+    piece.labels.set(fetched_labels)
+    piece.save()
+
 
 @user_passes_test(is_superuser)
 def delete_piece(request, piece_id):
@@ -90,18 +93,24 @@ def delete_piece(request, piece_id):
 @user_passes_test(is_superuser)
 def edit_piece(request, piece_id):
     piece = MusicPiece.objects.get(pk=piece_id)
-    labels = piece.labels.values_list('id')
+    labels = piece.labels.values_list('id', 'label_type')
+    labels_instrument = [x for x, y in labels if y == 'INSTRUMENT']
+    labels_stem = [x for x, y in labels if y == 'STEM']
+    labels_sleutel = [x for x, y in labels if y == 'SLEUTEL']
+
     if request.method == 'POST':
         form = PieceCreationForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            pass
+            save_piece(form)
     else:
         title = piece.title
         file = piece.file
         file_content = file.read()
         data = {
             "title": title,
-            "labels": labels,
+            "labels_instrument": labels_instrument,
+            "labels_stem": labels_stem,
+            "labels_sleutel": labels_sleutel,
             "file": file
         }
         files = {
