@@ -30,3 +30,7 @@ Another possibility is to use docker. This, however is only configured to be use
 | Debugger   | A debug server runs on port 5678                                              |
 
 All the emails sent by the application end up visible in the maildev email client
+
+The proper way to run this is via a docker compose command executed in the root directory of the source tree
+
+`docker compose up`
