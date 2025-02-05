@@ -2,12 +2,29 @@
 {% block content %}
     <div class="row">
         <div class="column">
-            Dit is een test
-        </div>
-        <div class="column">
             <form method="post">
                 {% csrf_token %}
-                {{ form }}
+
+                <table class="table">
+                    <caption>Gekozen labels</caption>
+                    <thead>
+                        <tr>    
+                            <th>Type</th>
+                            <th>Naam</th>
+                            <th>Geselecteerd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for l in labels %}
+                        <tr>
+                            <td>{{ l.text }}</td>
+                            <td>{{ l.label_type }}</td>
+                            <td><input type="checkbox" name="labelid" id="labelid"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
                 <button type="submit">Opslaan</button>
             </form>
         </div>
