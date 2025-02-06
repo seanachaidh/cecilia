@@ -17,7 +17,7 @@ import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
+env_path = load_dotenv(os.path.join(BASE_DIR, '.env'), override=True)
 load_dotenv(env_path)
 
 
@@ -174,7 +174,13 @@ if DEBUG:
     )
 
 # EMAIL SETTINGS
-# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+# When we are in debug mode, we want to write mails to console
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    current_directory = os.getcwd()
+    tmp_mail_path = os.path.join(current_directory, 'mails')
+    EMAIL_FILE_PATH = tmp_mail_path
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('DJANGO_EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER')
