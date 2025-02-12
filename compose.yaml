@@ -11,8 +11,8 @@ services:
           path: requirements.txt
           
     ports:
-      - 8000:8000
-      - 5678:5678
+      - "8000:8000"
+      - "5678:5678"
     depends_on:
       db:
           condition: service_healthy
@@ -21,7 +21,7 @@ services:
     image: mysql
     restart: always
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=12345
       - MYSQL_USER=cecilia
@@ -35,11 +35,11 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - "8080:80"
     environment:
       - PMA_ARBITRARY=1
   mail:
     image: maildev/maildev
     ports:
-      - 1080:1080
-      - 1025:1025
+      - "1080:1080"
+      - "1025:1025"
