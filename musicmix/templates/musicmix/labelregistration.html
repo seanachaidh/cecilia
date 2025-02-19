@@ -17,10 +17,10 @@
                     <tbody>
                         {% for l in labels_sleutel.labels %}
                         <tr>
-                            <td>{{ l.text }}</td>
+                            <td>{{ l.naam }}</td>
                             <td>{{ l.label_type }}</td>
                             <!-- Zorg ervoor dat dit gebeurt via een functie die in de template kan aangeroepen worden -->
-                            <td><input value="True" type="checkbox" name="{{ l.text }}|{{ l.label_type }}"></td>
+                            <td><input value="{{ l.geselecteerd }}" type="checkbox" name="{{ l.naam }}|SLEUTEL"></td>
                         </tr>
                         {% endfor %}
                     </tbody>

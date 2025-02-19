@@ -22,10 +22,10 @@ class LabelTypeData:
         self._labels.append(data)
     
     @staticmethod
-    def with_list(label_type, data_list):
+    def with_list(label_type: Label.LabelType, data_list: list[Label]):
         return_value = LabelTypeData(label_type)
         for d in data_list:
-            return_value.add(d)
+            return_value.add(LabelData(d.id, d.text, False))
         return return_value
 
 class LabelData:
@@ -70,7 +70,7 @@ class LabelRegistrationView(LoginRequiredMixin, View):
 
 
 # few utility functions to handle labels
-def collect_labels(user, label_type) -> LabelTypeData:
+def collect_labels(user: Profile, label_type: Label.LabelType) -> LabelTypeData:
     # TODO kan dit in één keer?
     profile = Profile.objects.filter(user=user).get()
     labels = profile.labels.filter(label_type=label_type)
@@ -85,7 +85,7 @@ def select_labels(user_labels: LabelTypeData, all_labels: LabelTypeData):
         l.geselecteerd = any(x.label_id == l.label_id for x in user_labels.labels)
 
 def filter_keys(labels: dict[str, str], label_type: Label.LabelType) -> dict[str, str]:
-    return {k: v for k, v in labels.items() if k.startswith(str(label_type))}
+    return {k: v for k, v in labels.items() if k.endswith(str(label_type))}
 
 def edit_labels(new_labels: dict[str, str], profile: Profile):
     profile.labels.clear()
