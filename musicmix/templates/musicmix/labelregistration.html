@@ -19,7 +19,8 @@
                         <tr>
                             <td>{{ l.text }}</td>
                             <td>{{ l.label_type }}</td>
-                            <td><input value="True" type="checkbox" name="labelid" id="labelid"></td>
+                            <!-- Zorg ervoor dat dit gebeurt via een functie die in de template kan aangeroepen worden -->
+                            <td><input value="True" type="checkbox" name="{{ l.text }}|{{ l.label_type }}"></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -32,12 +33,3 @@
     </div>
 {% endblock content %}
 
-{% block styles %}
-
-    <style>
-        #id_parts, #id_instruments {
-            padding-left: 1em;
-        }
-    </style>
-    
-{% endblock styles %}

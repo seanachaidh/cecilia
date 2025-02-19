@@ -1,22 +1,17 @@
-from musicmix.dao.labelrepo import get_labels_from_ids
-from musicmix.dao.profilerepo import find_or_create_profile
-from musicmix.forms import LabelRegistrationForm
-from musicmix.models import Label, Profile
-
-
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views import View
+
+from musicmix.models import Label, Profile
 
 class LabelTypeData:
 
-    def __init__(self, type):
-        self._type = type
+    def __init__(self, label_type):
+        self._type = label_type
         self._labels: list[LabelData] = []
 
     @property
-    def type(self):
+    def label_type(self):
         return self._type
     
     @property
@@ -27,59 +22,54 @@ class LabelTypeData:
         self._labels.append(data)
     
     @staticmethod
-    def with_list(type, data_list):
-        return_value = LabelTypeData(type)
+    def with_list(label_type, data_list):
+        return_value = LabelTypeData(label_type)
         for d in data_list:
             return_value.add(d)
         return return_value
 
 class LabelData:
 
-    def __init__(self, naam: str, geselecteerd: bool):
+    def __init__(self, label_id: int, naam: str, geselecteerd: bool):
         self._naam = naam
         self._geselecteerd = geselecteerd
+        self._id = label_id
 
     @property
     def naam(self) -> str:
         return self._naam
     @property
+    def label_id(self) -> int:
+        return self._id
+    @property
     def geselecteerd(self) -> bool:
         return self._geselecteerd
+
+    @geselecteerd.setter
+    def geselecteerd(self, new_geselecteerd: bool):
+        self._geselecteerd = new_geselecteerd
 
 
 class LabelRegistrationView(LoginRequiredMixin, View):
     login_url = 'login'
 
+    #TODO maak hier functies van
     def get(self, request):
         user = request.user
         labels_sleutel = collect_labels(user, Label.LabelType.SLEUTEL)
         labels_sleutel_all = collect_all_labels(Label.LabelType.SLEUTEL)
         select_labels(labels_sleutel, labels_sleutel_all)
-        
-        
+
         return render(request=request, template_name='musicmix/labelregistration.html', context={'labels_sleutel': labels_sleutel_all})
 
     def post(self, request):
-        form = LabelRegistrationForm(request.POST)
-        if form.is_valid():
-            # These are all ID's of labels
-            stem = form.cleaned_data.get('stem')
-            instruments = form.cleaned_data.get('instrument')
+        labels = request.POST
+        profile = Profile.objects.get(user=request.user)
+        keys_sleutel = filter_keys(labels, Label.LabelType.SLEUTEL)
+        edit_labels(keys_sleutel, profile)
 
-            stem_objects = get_labels_from_ids(stem)
-            instrument_objects = get_labels_from_ids(instruments)
 
-            profile = find_or_create_profile(request.user)
-            profile.labels.set(stem_objects + instrument_objects)
-            profile.save()
-            messages.add_message(request, messages.INFO, "Saving labels succeeded")
-            return redirect("/musicmix")
-        else:
-            messages.add_message(request, messages.ERROR, "Request was invalid")
-            render(request, template_name='musicmix/labelregistration.html', context={form: form})
-            
-            
-# few utitlity functions to handle labels
+# few utility functions to handle labels
 def collect_labels(user, label_type) -> LabelTypeData:
     # TODO kan dit in één keer?
     profile = Profile.objects.filter(user=user).get()
@@ -90,6 +80,19 @@ def collect_all_labels(label_type):
     labels = Label.objects.filter(label_type=label_type)
     return LabelTypeData.with_list(label_type, list(labels))
 
-def select_labels(user_labels, all_labels: LabelTypeData):
+def select_labels(user_labels: LabelTypeData, all_labels: LabelTypeData):
     for l in all_labels.labels:
-        l.geselecteerd = any(x.id == l.id for x in user_labels.labels)
+        l.geselecteerd = any(x.label_id == l.label_id for x in user_labels.labels)
+
+def filter_keys(labels: dict[str, str], label_type: Label.LabelType) -> dict[str, str]:
+    return {k: v for k, v in labels.items() if k.startswith(str(label_type))}
+
+def edit_labels(new_labels: dict[str, str], profile: Profile):
+    profile.labels.clear()
+    for k, v in new_labels.items():
+        # fetch label
+        if v:
+            label_name, label_type = k.split('|')
+            label = Label.objects.get(label_type=label_type, text=label_name)
+            profile.labels.add(label)
+    profile.save()
