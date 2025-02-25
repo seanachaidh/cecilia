@@ -166,12 +166,34 @@ CACHES = {
     }
 }
 
-#TODO werkt dit voor de logging?*
-if DEBUG:
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)s %(levelname)s %(message)s'
-    )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO'
+        },
+        'musicmix': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        } 
+    }
+}
 
 # EMAIL SETTINGS
 # When we are in debug mode, we want to write mails to console

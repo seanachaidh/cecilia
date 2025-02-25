@@ -9,18 +9,15 @@
                     <caption>Gekozen labels</caption>
                     <thead>
                         <tr>    
-                            <th>Naam</th>
-                            <th>Type</th>
                             <th>Geselecteerd</th>
+                            <th>Naam</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for l in labels_sleutel.labels %}
+                        {% for l in form.sleutel %}
                         <tr>
-                            <td>{{ l.naam }}</td>
-                            <td>{{ l.label_type }}</td>
-                            <!-- Zorg ervoor dat dit gebeurt via een functie die in de template kan aangeroepen worden -->
-                            <td><input value="{{ l.geselecteerd }}" type="checkbox" name="{{ l.naam }}|SLEUTEL"></td>
+                            <td>{{ l.tag }}</td>
+                            <td>{{ l.choice_label }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

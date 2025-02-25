@@ -1,8 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+from .. import logger
 
 from musicmix.models import Label, Profile
+from musicmix.forms import LabelRegistrationForm
 
 class LabelTypeData:
 
@@ -56,17 +59,19 @@ class LabelRegistrationView(LoginRequiredMixin, View):
     #TODO maak hier functies van
     def get(self, request):
         user = request.user
-        labels_sleutel = collect_labels(user, Label.LabelType.SLEUTEL)
-        labels_sleutel_all = collect_all_labels(Label.LabelType.SLEUTEL)
-        select_labels(labels_sleutel, labels_sleutel_all)
+        
+        form = LabelRegistrationForm()
 
-        return render(request=request, template_name='musicmix/labelregistration.html', context={'labels_sleutel': labels_sleutel_all})
+        return render(request=request, template_name='musicmix/labelregistration.html', context={'form': form})
 
     def post(self, request):
-        labels = request.POST
-        profile = Profile.objects.get(user=request.user)
-        keys_sleutel = filter_keys(labels, Label.LabelType.SLEUTEL)
-        edit_labels(keys_sleutel, profile)
+        # TODO ik moet dit refactoren zodat het gebruik maakt van het Form systeem van django.
+        form = LabelRegistrationForm(request.POST)
+        if form.is_valid():
+            sleutel = form.cleaned_data.get('sleutel')
+            logger.info("sleutel labels: %s", sleutel)
+        return HttpResponse('')
+            
 
 
 # few utility functions to handle labels
