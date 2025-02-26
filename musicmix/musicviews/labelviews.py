@@ -62,8 +62,8 @@ class LabelRegistrationView(LoginRequiredMixin, View):
         
         form = LabelRegistrationForm()
         profile = Profile.objects.get(user=request.user)
-        form.populate(list(profile.labels))
-
+        form.populate(profile.labels.values())
+        
         return render(request=request, template_name='musicmix/labelregistration.html', context={'form': form})
 
     def post(self, request):
