@@ -61,6 +61,8 @@ class LabelRegistrationView(LoginRequiredMixin, View):
         user = request.user
         
         form = LabelRegistrationForm()
+        profile = Profile.objects.get(user=request.user)
+        form.populate(list(profile.labels))
 
         return render(request=request, template_name='musicmix/labelregistration.html', context={'form': form})
 
@@ -69,7 +71,19 @@ class LabelRegistrationView(LoginRequiredMixin, View):
         form = LabelRegistrationForm(request.POST)
         if form.is_valid():
             sleutel = form.cleaned_data.get('sleutel')
-            logger.info("sleutel labels: %s", sleutel)
+            stem = form.cleaned_data.get('stem')
+            instrument = form.cleaned_data.get('instrument')
+
+            # Ik denk dat ik deze gewoon kan samenvoegen?
+            alle_labels = sleutel + stem + instrument
+            profile = Profile.objects.get(user=request.user)
+            profile.labels.clear()
+            for label_id in alle_labels:
+                # Haal de label op
+                label = Label.objects.get(id=label_id)
+                profile.labels.add(label)
+            profile.save()
+
         return HttpResponse('')
             
 
