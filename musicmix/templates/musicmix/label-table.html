@@ -1,0 +1,17 @@
+<table class="table">
+    <caption>{{ table_title }}</caption>
+    <thead>
+    <tr>
+        <th>Geselecteerd</th>
+        <th>Naam</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for l in labels %}
+        <tr>
+            <td>{{ l.tag }}</td>
+            <td>{{ l.choice_label }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

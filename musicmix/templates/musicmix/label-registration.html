@@ -1,0 +1,18 @@
+{% extends "./base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="column">
+            <form method="post">
+                {% csrf_token %}
+
+                {% include 'musicmix/label-table.html' with table_title='Labels sleutel' labels=form.sleutel %}
+                {% include 'musicmix/label-table.html' with table_title='Labels stem' labels=form.stem %}
+                {% include 'musicmix/label-table.html' with table_title='Labels instrument' labels=form.instrument %}
+
+                <button type="submit">Opslaan</button>
+            </form>
+        </div>
+        
+    </div>
+{% endblock content %}
+

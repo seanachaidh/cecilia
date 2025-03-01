@@ -19,7 +19,7 @@ class LabelRegistrationView(LoginRequiredMixin, View):
         }
         form = LabelRegistrationForm(initial=data)
         
-        return render(request=request, template_name='musicmix/labelregistration.html', context={'form': form})
+        return render(request=request, template_name='musicmix/label-registration.html', context={'form': form})
 
     def post(self, request):
         form = LabelRegistrationForm(request.POST)
@@ -38,4 +38,4 @@ class LabelRegistrationView(LoginRequiredMixin, View):
                 profile.labels.add(label)
             profile.save()
 
-        return render(request=request, template_name='musicmix/labelregistration.html', context={'form': form})
+        return render(request=request, template_name='musicmix/label-registration.html', context={'form': form})
