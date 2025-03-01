@@ -37,6 +37,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     labels = models.ManyToManyField(Label)
 
+    def collect_labels(self, t: Label.LabelType) -> list[int]:
+        return list(self.labels.filter(label_type=t).values_list('id', flat=True))
+
 class PasswordReset(models.Model):
     token = models.CharField(max_length=20)
     user = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)

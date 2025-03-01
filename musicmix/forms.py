@@ -72,8 +72,8 @@ class PieceCreationForm(PieceEditForm):
 
 class LabelRegistrationForm(forms.Form):
 
-    def __init__(self, data=None):
-        super(LabelRegistrationForm, self).__init__(data=data)
+    def __init__(self, data=None, initial=None):
+        super(LabelRegistrationForm, self).__init__(data=data, initial=initial)
         choices_instruments = fetch_all_choices_for_type('INSTRUMENT')
         self.fields['instrument'] = forms.MultipleChoiceField(
             label='Instrumenten',
@@ -95,9 +95,9 @@ class LabelRegistrationForm(forms.Form):
             choices=choice_key, required=False
         )
 
-    def populate(self, labels: list[Label]):
+    def populate(self, labels: list[dict[str, str]]):
         label_types = dict()
         for label in labels:
-            label_value = label_types.get(str(label.label_type), [])
-            label_value.append(str(label.text))
-            label_types[str(label.label_type)] = label_value
+            label_value = label_types.get(str(label.get('label_type')), False)
+            label_value.append(str(label.get('label')))
+            label_types[str(label.get('label_type'))] = label_value
