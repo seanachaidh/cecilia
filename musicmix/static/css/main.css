@@ -19,16 +19,32 @@ a {
     cursor: pointer;
 }
 
+div.message-container {
+    position: absolute;
+    top: 0;
+    width: 66%;
+}
+
+div.centering-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-content: center;
+}
+
 ul.messages {
     margin: 1em;
     list-style: none;
     color: black;
+
     li {
         padding: 1.1em;
     }
+
     li.error {
         background-color: #c18282;
     }
+
     li.info, li.success {
         background-color: #28a745;
         color: white;
@@ -39,9 +55,11 @@ ul.messages {
     .current {
         text-align: center;
     }
+
     .next {
         text-align: right;
     }
+
     .previous {
         text-align: left;
     }
@@ -74,7 +92,7 @@ ul.messages {
     border-radius: 25px;
     background-color: #f1f1f1;
 }
-  
+
 .chip img {
     float: left;
     margin: 0 10px 0 -25px;
@@ -91,6 +109,25 @@ ul.messages {
 .label-list {
     list-style: none;
 }
+
 .list-button {
     float: right;
+}
+
+/*
+    verbergen van een element over een tijd van 5 seconden
+ */
+.hide-div {
+    /* TODO is hidden beter? */
+    opacity: 1;
+    animation: hide 2s 3s ease-out forwards;
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

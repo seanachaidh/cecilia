@@ -18,7 +18,7 @@
                 {% if user.is_superuser %}<a href="/musicmix/admin" class="navigation-link">Admin</a>{% endif %}
                 {% if user.is_authenticated %}
                     <a href="logout" class="navigation-link">Logout</a>
-                    {% else %}
+                {% else %}
                     <a class="navigation-link" href="login">Login</a>
                 {% endif %}
             </li>
@@ -29,11 +29,16 @@
 
 <div class="container">
     {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            	<li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+        <div class="centering-container">
+            <div class="message-container hide-div">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
     {% endif %}
 
     {% block content %}
