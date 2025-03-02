@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
@@ -37,5 +38,6 @@ class LabelRegistrationView(LoginRequiredMixin, View):
                 label = Label.objects.get(id=label_id)
                 profile.labels.add(label)
             profile.save()
+            messages.success(request, 'Labels zijn opgeslagen.')
 
         return render(request=request, template_name='musicmix/label-registration.html', context={'form': form})
