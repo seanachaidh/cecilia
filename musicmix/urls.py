@@ -15,7 +15,7 @@ urlpatterns = [
     path("admin/editpiece/<int:piece_id>", adminviews.edit_piece),
     path("login", mainviews.login_user, name="login"),
     path("logout", mainviews.logout_user, name="logout"),
-    path("labels", musicmix.musicviews.labelviews.LabelRegistrationView.as_view()),
+    path("labels", musicmix.musicviews.labelviews.handle_labels, name="labels"),
     path("labels/delete/<int:label_id>", adminviews.remove_label, name="label_remove"),
     path("labels/<str:label_type>/add", adminviews.add_label),
     path("overview", userviews.OverviewView.as_view(), name="musicpieceoverview"),
