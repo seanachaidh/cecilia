@@ -24,13 +24,25 @@ class Label(models.Model):
 
 
 class MusicPiece(models.Model):
+    _youtube_format = 'https://www.youtube.com/watch?v={id}'
+
     title = models.CharField(max_length=200)
     file = models.FileField(upload_to='uploads')
     labels = models.ManyToManyField(Label)
     active = models.BooleanField(default=False)
+    youtube_id = models.CharField(max_length=20, blank=True)
 
     def __str__(self) -> str:
         return self.title.__str__()
+
+    def has_youtube(self):
+        return self.youtube_id is not None and len(self.youtube_id.strip()) > 0
+
+    def get_youtube_url(self):
+        if self.has_youtube():
+            return self._youtube_format.format(id=self.youtube_id)
+        else:
+            return None
 
 
 class Profile(models.Model):
