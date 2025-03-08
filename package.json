@@ -1,0 +1,16 @@
+{
+  "name": "cecilia",
+  "version": "1.0.0",
+  "scripts": {
+    "build-css": "sass -I . musicmix/static/sass/main.scss musicmix/static/css/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanachaidh/cecilia.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "milligram": "^1.4.1",
+    "sass": "^1.85.1"
+  }
+}
