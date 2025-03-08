@@ -123,6 +123,27 @@ ul.messages {
     animation: hide 2s 3s ease-out forwards;
 }
 
+/*
+    voor submenus
+ */
+
+
+.submenu {
+    display: none;
+    position: absolute;
+}
+
+.submenu li  {
+    list-style-type: none;
+    text-decoration: none;
+    display: block;
+}
+.submenu li a {}
+
+nav > ul > li:hover > .submenu {
+  display: block;
+}
+
 @keyframes hide {
     0% {
         opacity: 1;
