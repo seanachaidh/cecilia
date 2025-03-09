@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+}
+
+.navigation {
+  padding: 1em;
+  background-color: #f4f5f6;
+
+  .navigation-list {
+    list-style: none;
+  }
+
+  .navigation-link {
+    padding: 1em;
+  }
+}
+
+a {
+  cursor: pointer;
+}
+
+div.message-container {
+  position: absolute;
+  top: 0;
+  width: 66%;
+}
+
+div.centering-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-content: center;
+}
+
+ul.messages {
+  margin: 1em;
+  list-style: none;
+  color: black;
+
+  li {
+    padding: 1.1em;
+
+    &.error {
+      background-color: #c18282;
+    }
+
+    &.info,
+    &.success {
+      background-color: #28a745;
+      color: white;
+    }
+  }
+}
+
+.pagination {
+  .current {
+    text-align: center;
+  }
+
+  .next {
+    text-align: right;
+  }
+
+  .previous {
+    text-align: left;
+  }
+}
+
+.right-align {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.chip-container {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+}
+
+.chip {
+  margin-bottom: 10px;
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+
+  img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+}
+
+.single-button-form {
+  margin-bottom: 0;
+  display: inline;
+}
+
+.label-list {
+  list-style: none;
+}
+
+.list-button {
+  float: right;
+}
+
+.hide-div {
+  opacity: 1;
+  animation: hide 2s 3s ease-out forwards;
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
