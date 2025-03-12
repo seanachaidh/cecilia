@@ -14,30 +14,28 @@
         <ul class="navigation-list float-right">
             <li class="navigation-item">
                 <a href="labels" class="navigation-link">Labels</a>
+            </li>
                 {% if user.is_superuser %}
-                    <li>
-                        Admin
-                        <ul class="submenu">
-
-                            <li>
-                                <a href="#">Gebruikers</a>
-                            </li>
-                            <li>
-                                <a href="#">Labels</a>
-                            </li>
-                            <li>
-                                <a href="#">Stukken</a>
-                            </li>
-                        </ul>
+                    <li class="navigation-item">
+                        <a href="#admin-popover" class="navigation-link" data-popover>Admin</a>
+                        <div class="popover" id="admin-popover">
+                            <ul class="popover-list">
+                                <li class="popover-item">
+                                    <a href="{% url 'admin:index' %}" class="popover-link">Gebruikers</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-
                 {% endif %}
             {% if user.is_authenticated %}
-                <a href="logout" class="navigation-link">Logout</a>
+                <li class="navigation-item">
+                    <a href="logout" class="navigation-link">Logout</a>
+                </li>
             {% else %}
-                <a class="navigation-link" href="login">Login</a>
+                <li class="navigation-item">
+                    <a class="navigation-link" href="login">Login</a>
+                </li>
             {% endif %}
-            </li>
         </ul>
     </section>
 

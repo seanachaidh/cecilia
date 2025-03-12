@@ -579,6 +579,7 @@ body {
   background-color: #f4f5f6;
 }
 .navigation .navigation-list {
+  display: flex;
   list-style: none;
 }
 .navigation .navigation-link {
@@ -676,27 +677,6 @@ ul.messages li.info, ul.messages li.success {
 .hide-div {
   opacity: 1;
   animation: hide 2s 3s ease-out forwards;
-}
-
-/*
-    voor submenus
- */
-
-
-.submenu {
-    display: none;
-    position: absolute;
-}
-
-.submenu li  {
-    list-style-type: none;
-    text-decoration: none;
-    display: block;
-}
-.submenu li a {}
-
-nav > ul > li:hover > .submenu {
-  display: block;
 }
 
 @keyframes hide {
