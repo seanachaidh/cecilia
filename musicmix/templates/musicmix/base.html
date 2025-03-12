@@ -18,7 +18,7 @@
                 {% if user.is_superuser %}
                     <li class="navigation-item">
                         <a href="#admin-popover" class="navigation-link" data-popover>Admin</a>
-                        <div class="popover" id="admin-popover">
+                        <div class="popover popover-open" id="admin-popover">
                             <ul class="popover-list">
                                 <li class="popover-item">
                                     <a href="{% url 'admin:index' %}" class="popover-link">Gebruikers</a>
@@ -63,6 +63,9 @@
 {% block styles %}
 
 {% endblock styles %}
+
+<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
+
 
 </body>
 </html>
