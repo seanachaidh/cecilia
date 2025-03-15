@@ -1,43 +1,36 @@
 // code voor de popover
 const popoverLinks = document.querySelectorAll('[data-popover]');
-const popovers = document.getElementsByClassName('popover');
 
 document.addEventListener('click', closePopUp);
 
-for (let popover of popovers) {
+for (let popover of popoverLinks) {
     popover.addEventListener('click', openPopUp);
 }
 
-
-// this is the element that fired the event
 function openPopUp(event) {
-    event.preventDefault();
-    console.log('open pop-up');
+    event.stopPropagation();
+    const href = event.target.getAttribute('href');
+    const popover = document.querySelector(href);
+    popover.classList.add('popover-open');
 
 }
 
 function closePopUp(ignored) {
-    for (let p of popovers) {
-        if (popoverOpened(p)) {
-            p.classList.remove('popover-open');
-        }
+    console.log('close popup');
+    const popoverElement = fetchCurrentElement()
+    if (popoverElement !== null) {
+        console.log('Found element. Removing...');
+        popoverElement.classList.remove('popover-open');
+        window.location.hash = "";
     }
+
 }
 
-function fetchCurrentElement(element) {
-    let href = element.getAttribute('href');
-    if (href) {
-        return document.querySelector(href);
+function fetchCurrentElement() {
+    const hash = window.location.hash;
+    console.log('Found hash',  hash);
+    if (hash) {
+        return document.querySelector(hash);
     }
     return null;
-}
-
-function popoverOpened(element) {
-    let el = fetchCurrentElement(element);
-    if (el !== null) {
-        return el.classList.contains('popover-open');
-    } else {
-        return false;
-    }
-
 }
