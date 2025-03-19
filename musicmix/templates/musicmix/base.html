@@ -13,7 +13,7 @@
             <a href="/musicmix" class="navigation-title">Cecilia</a>
             <ul class="navigation-list float-right">
                 <li class="navigation-item">
-                    <a href="labels" class="navigation-link">Labels</a>
+                    <a href="{% url 'my_labels' %}" class="navigation-link">Labels</a>
                 </li>
                 {% if user.is_superuser %}
                     <li class="navigation-item">
@@ -23,6 +23,8 @@
                             <ul class="popover-list">
                                 <li class="popover-item">
                                     <a href="{% url 'users' %}" class="popover-link">Gebruikers</a>
+                                    <a href="{% url 'labels' %}" class="popover-link">Labels</a>
+                                    <a href="{% url 'pieces' %}" class="popover-link">Muziekstukken</a>
                                 </li>
                             </ul>
                         </div>
