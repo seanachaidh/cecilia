@@ -1,0 +1,23 @@
+{% extends 'musicmix/base.html' %}
+{% block content %}
+    <table>
+        <tr>
+            <th>Naam</th>
+            <th class="float-right">Acties</th>
+        </tr>
+    <thead>
+    <tbody>
+    {% for profile in profiles %}
+    	<tr>
+            <td>{{ profile.naam }}</td>
+            <td class="float-right">
+                <form action="{% url 'remove_user' profile.id %}" class="single-button-form" method="post">
+                    {% csrf_token %}
+                    <input class="button" type="submit" value="Verwijder">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

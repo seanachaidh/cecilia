@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import redirect, render, reverse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
 from .authutils import is_superuser
 from ..dao.labelrepo import collect_labels
@@ -176,3 +176,19 @@ def random_string(length: int) -> str:
         result = result + gekozen
     return result
 
+
+@user_passes_test(is_superuser)
+@require_GET
+def show_users(request):
+    # Fetch all profile
+    profiles = Profile.objects.all()
+    return render(request, 'musicmix/user_table.html', {'profiles': profiles})
+
+
+
+def show_labels(request):
+    return None
+
+
+def show_pieces(request):
+    return None
