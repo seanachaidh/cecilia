@@ -2,36 +2,23 @@ from logging import info
 from random import randint
 
 from django.contrib.auth.decorators import user_passes_test
-from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import redirect, render, reverse
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_POST
+from django.views.generic import ListView
 
 from .authutils import is_superuser
-from ..dao.labelrepo import collect_labels
 from ..forms import UserCreationForm, PieceCreationForm, UserUpdateForm
 from ..models import *
 
 
-# TODO maak hier een paged list view van
-@user_passes_test(is_superuser)
-def show_admin_panel(request):
-    pieces = MusicPiece.objects.all()
-    users = User.objects.all()
-    label_types = collect_labels()
-    admin_context = {
-        "label_types": label_types,
-        "users": users,
-        "pieces": pieces
-    }
-    return render(request=request, template_name='musicmix/adminpanel.html', context=admin_context)
-    
 @require_POST
 @user_passes_test(is_superuser)
 def remove_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.delete()
-    return redirect(reverse('admin'))
+    return redirect(reverse('users'))
 
 @require_POST
 @user_passes_test(is_superuser)
@@ -45,14 +32,14 @@ def add_label(request, label_type):
     label.text = naam
     label.save()
     
-    return redirect(reverse('admin'))
+    return redirect(reverse('labels'))
 
 @user_passes_test(is_superuser)
 def remove_label(request, label_id):
     #Wat met mogelijke muziekstukken gekoppeld aan labels?
     label = Label.objects.get(pk=label_id)
     label.delete()
-    return redirect(reverse('admin'))
+    return redirect(reverse('users'))
 
 @user_passes_test(is_superuser)
 def add_piece(request):
@@ -62,7 +49,7 @@ def add_piece(request):
             save_piece(form)
 
             # Perfect bewaard. Terug naar admin
-            return redirect(reverse('admin'))
+            return redirect(reverse('pieces'))
     else:
         #Wanneer het get is
         form = PieceCreationForm()
@@ -88,7 +75,7 @@ def save_piece(form):
 def delete_piece(request, piece_id):
     piece = MusicPiece.objects.get(pk=piece_id)
     piece.delete()
-    return redirect(reverse('admin'))
+    return redirect(reverse('pieces'))
 
 @user_passes_test(is_superuser)
 def edit_piece(request, piece_id):
@@ -138,7 +125,7 @@ def add_user(request):
             )
             new_user.save()
             #Hier het wachtwoord resetten
-            return redirect(reverse('admin'))
+            return redirect(reverse('users'))
             
     else:
         form = UserCreationForm()
@@ -160,12 +147,7 @@ def update_user(request, user_id):
         )
     return render(request, 'musicmix/basic_form.html', {'form': form})
 
-def perform_auth_check(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    if not request.user.is_superuser:
-        raise PermissionDenied()
-    return True
+
 #TODO verander dit door een functie van django zelve
 def random_string(length: int) -> str:
     letters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -177,18 +159,15 @@ def random_string(length: int) -> str:
     return result
 
 
-@user_passes_test(is_superuser)
-@require_GET
-def show_users(request):
-    # Fetch all profile
-    profiles = Profile.objects.all()
-    return render(request, 'musicmix/user_table.html', {'profiles': profiles})
+class ProfilesListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Profile
+    context_object_name = 'profiles'
+    template_name = 'musicmix/user_table.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
-
-def show_labels(request):
-    return None
-
-
-def show_pieces(request):
-    return None
+class PiecesListView(ListView):
+    model = MusicPiece
+    context_object_name = 'pieces'

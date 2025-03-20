@@ -6,10 +6,9 @@ from .musicviews import mainviews, userviews, downloader, adminviews, passwordvi
 
 urlpatterns = [
     path("", userviews.MyPiecesView.as_view(), name="index"),
-    path("admin", adminviews.show_admin_panel, name="admin"),
-    path("admin/users", adminviews.show_users, name="users"),
-    path("admin/labels", adminviews.show_labels, name="labels"),
-    path("admin/pieces", adminviews.show_pieces, name="pieces"),
+    path("admin/users", adminviews.ProfilesListView.as_view(), name="users"),
+    path("admin/pieces", adminviews.PiecesListView.as_view(), name="pieces"),
+    path("admin/labels", adminviews.l.as_view(), name="labels"),
     path("admin/createuser", adminviews.add_user, name="creatuser"),
     path("admin/updateuser/<int:user_id>", adminviews.update_user, name="updateuser"),
     path("admin/deleteuser/<int:user_id>", adminviews.remove_user, name="remove_user"),
