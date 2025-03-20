@@ -2,17 +2,12 @@ body {
   margin: 0;
 }
 
-.navigation {
-  padding: 1em;
-  background-color: #f4f5f6;
+header {
+  padding-top: 5em;
+}
 
-  .navigation-list {
-    list-style: none;
-  }
-
-  .navigation-link {
-    padding: 1em;
-  }
+th, td {
+  width: 100%;
 }
 
 a {
@@ -74,30 +69,6 @@ ul.messages {
   float: right;
 }
 
-.chip-container {
-  display: flex;
-  justify-content: left;
-  gap: 10px;
-}
-
-.chip {
-  margin-bottom: 10px;
-  display: inline-block;
-  padding: 0 25px;
-  height: 50px;
-  font-size: 16px;
-  line-height: 50px;
-  border-radius: 25px;
-  background-color: #f1f1f1;
-
-  img {
-    float: left;
-    margin: 0 10px 0 -25px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-  }
-}
 
 .single-button-form {
   margin-bottom: 0;

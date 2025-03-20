@@ -7,47 +7,69 @@
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </head>
 <body>
-
-<nav class="navigation">
-    <section class="container">
-        <a href="/musicmix" class="navigation-title">Cecilia</a>
-        <ul class="navigation-list float-right">
-            <li class="navigation-item">
-                <a href="labels" class="navigation-link">Labels</a>
-                {% if user.is_superuser %}<a href="/musicmix/admin" class="navigation-link">Admin</a>{% endif %}
-                {% if user.is_authenticated %}
-                    <a href="logout" class="navigation-link">Logout</a>
-                {% else %}
-                    <a class="navigation-link" href="login">Login</a>
+<main class="wrapper">
+    <nav class="navigation">
+        <section class="container">
+            <a href="/musicmix" class="navigation-title">Cecilia</a>
+            <ul class="navigation-list float-right">
+                <li class="navigation-item">
+                    <a href="{% url 'my_labels' %}" class="navigation-link">Labels</a>
+                </li>
+                {% if user.is_superuser %}
+                    <li class="navigation-item">
+                        <a href="#admin-popover" class="navigation-link" data-popover>Admin</a>
+                        <!-- TODO op deze div moet popover-open komen wanneer er op de navigation link hierboven geklikt wordt -->
+                        <div class="popover" id="admin-popover">
+                            <ul class="popover-list">
+                                <li class="popover-item">
+                                    <a href="{% url 'users' %}" class="popover-link">Gebruikers</a>
+                                    <a href="{% url 'labels' %}" class="popover-link">Labels</a>
+                                    <a href="{% url 'pieces' %}" class="popover-link">Muziekstukken</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 {% endif %}
-            </li>
-        </ul>
-    </section>
+                {% if user.is_authenticated %}
+                    <li class="navigation-item">
+                        <a href="logout" class="navigation-link">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="navigation-item">
+                        <a class="navigation-link" href="login">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </section>
 
-</nav>
+    </nav>
 
-<div class="container">
-    {% if messages %}
-        <div class="centering-container">
-            <div class="message-container hide-div">
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <header class="header">
+        <section class="container">
+            {% if messages %}
+                <div class="container">
+                    <div class="message-container hide-div">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
-    {% endif %}
+            {% endif %}
 
-    {% block content %}
-    {% endblock content %}
-</div>
+            {% block content %}
+            {% endblock content %}
+        </section>
+    </header>
+    <!-- for styles specific to the template -->
+    {% block styles %}
 
-<!-- for styles specific to the template -->
-{% block styles %}
+    {% endblock styles %}
 
-{% endblock styles %}
 
+</main>
+<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
 </body>
 </html>

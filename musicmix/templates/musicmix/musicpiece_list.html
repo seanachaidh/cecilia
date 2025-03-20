@@ -1,0 +1,22 @@
+{% extends 'musicmix/base.html' %}
+
+{% block content %}
+    <a href="{% url 'add_piece' %}" class="button">Toevoegen</a>
+	<table class="table">
+        <caption>Muziekstukken</caption>
+        <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Actief</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for foo in pieces %}
+            <tr>
+                <td>{{ foo.title }}</td>
+                <td>{{ foo.active }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

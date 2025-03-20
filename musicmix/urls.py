@@ -6,7 +6,9 @@ from .musicviews import mainviews, userviews, downloader, adminviews, passwordvi
 
 urlpatterns = [
     path("", userviews.MyPiecesView.as_view(), name="index"),
-    path("admin", adminviews.show_admin_panel, name="admin"),
+    path("admin/users", adminviews.ProfilesListView.as_view(), name="users"),
+    path("admin/pieces", adminviews.PiecesListView.as_view(), name="pieces"),
+    path("admin/labels", adminviews.l.as_view(), name="labels"),
     path("admin/createuser", adminviews.add_user, name="creatuser"),
     path("admin/updateuser/<int:user_id>", adminviews.update_user, name="updateuser"),
     path("admin/deleteuser/<int:user_id>", adminviews.remove_user, name="remove_user"),
@@ -15,7 +17,7 @@ urlpatterns = [
     path("admin/editpiece/<int:piece_id>", adminviews.edit_piece),
     path("login", mainviews.login_user, name="login"),
     path("logout", mainviews.logout_user, name="logout"),
-    path("labels", musicmix.musicviews.labelviews.handle_labels, name="labels"),
+    path("labels", musicmix.musicviews.labelviews.handle_labels, name="my_labels"),
     path("labels/delete/<int:label_id>", adminviews.remove_label, name="label_remove"),
     path("labels/<str:label_type>/add", adminviews.add_label),
     path("overview", userviews.OverviewView.as_view(), name="musicpieceoverview"),
