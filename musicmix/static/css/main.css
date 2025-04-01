@@ -663,6 +663,16 @@ ul.messages li.info, ul.messages li.success {
     display: none;
   }
 }
+.action-form {
+  margin-bottom: 0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .popover {
   background: #fff;
   border: 0.1rem solid #d1d1d1;

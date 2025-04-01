@@ -1,4 +1,4 @@
-from logging import info
+from .. import logger
 from random import randint
 
 from django.contrib.auth.decorators import user_passes_test
@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
 from .authutils import is_superuser
-from ..forms import UserCreationForm, PieceCreationForm, UserUpdateForm
+from ..forms import UserCreationForm, PieceCreationForm, UserUpdateForm, LabelFilterForm, LabelToevoegForm
 from ..models import *
 
 
@@ -24,7 +24,7 @@ def remove_user(request, user_id):
 @user_passes_test(is_superuser)
 def add_label(request, label_type):
     naam = request.POST.get("nieuwe")
-    info('nieuw label met naam: ' + naam)
+    logger.info('nieuw label met naam: ' + naam)
     
     #label maken
     label = Label()
@@ -166,6 +166,50 @@ class ProfilesListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class LabelsListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Label
+    context_object_name = 'labels'
+    template_name = 'musicmix/labels-admin.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(
+        self, *, object_list = ..., **kwargs
+    ):
+        context = super(LabelsListView, self).get_context_data(**kwargs)
+        context['label_filter_form'] = LabelFilterForm()
+        context['label_toevoeg_form'] = LabelToevoegForm()
+        return context
+
+    def get_queryset(self):
+        filter_form = LabelFilterForm(self.request.GET)
+        if filter_form.is_valid():
+            label_type = filter_form.cleaned_data['label']
+            if label_type is not None:
+                return Label.objects.filter(label_type=label_type)
+            else:
+                return Label.objects.all()
+        else:
+            return Label.objects.all()
+    def post(self, request, *args, **kwargs):
+        actie = request.POST.get('action-button')
+        if actie == 'verwijderen':
+            id = request.POST.get('label_id')
+            label = Label.objects.get(pk=id)
+            label.delete()
+            return redirect(reverse('labels'))
+
+        toevoeg_form = LabelToevoegForm(request.POST)
+        if toevoeg_form.is_valid():
+            label = toevoeg_form.cleaned_data['text']
+            label_type = toevoeg_form.cleaned_data['label']
+            label_obj = Label(text=label, label_type=label_type)
+            label_obj.save()
+        # Ik weet niet direct hoe ik hier correcte error afhandeling moet doen. Dus ik negeer ze gewoon
+        return redirect(reverse('labels'))
 
 
 class PiecesListView(ListView):

@@ -1,0 +1,47 @@
+{% extends 'musicmix/base.html' %}
+{% block content %}
+
+    <!-- TODO De klasse form-inline moet misschien nog gemaakt worden -->
+    <form method="get" class="form-inline">
+    {{ label_filter_form }}
+    <button class="button">Filteren</button>
+    </form>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Label</th>
+            <th>Type</th>
+            <th>Acties</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for label in labels %}
+            <tr>
+                <td>{{ label.text }}</td>
+                <td>{{ label.label_type }}</td>
+                <td>
+                    <form class="action-form" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="label_id" value="{{ label.id }}">
+                        <div class="action-buttons">
+                            <button class="button" name="action-button" value="verwijderen"><span class="fa-solid fa-trash"></span></button>
+                        </div>
+
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- hier misschien een andere actie aan toevoegen -->
+    <form method="post">
+        {% csrf_token %}
+        {{ label_toevoeg_form }}
+        <button name="action-button" value="toevoegen" class="button">
+            Toevoegen
+        </button>
+    </form>
+
+{% endblock content %}

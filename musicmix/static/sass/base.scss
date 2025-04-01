@@ -1,3 +1,5 @@
+@import "color";
+
 body {
   margin: 0;
 }
@@ -99,4 +101,13 @@ ul.messages {
     opacity: 0;
     display: none;
   }
+}
+
+.action-form {
+  margin-bottom: 0;
+}
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

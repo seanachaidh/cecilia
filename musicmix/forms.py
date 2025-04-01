@@ -3,10 +3,19 @@ from .dao.labelrepo import fetch_all_choices_for_type
 from .models import Label
 from django.forms.widgets import PasswordInput
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(label="username", max_length=20, required=True)
     password = forms.CharField(label="password", max_length=255, required=True, widget=PasswordInput)
-    
+
+
+class LabelFilterForm(forms.Form):
+    label = forms.ChoiceField(label="Label", required=True, choices=Label.LabelType.choices + [(None, 'Geen filter')])
+
+class LabelToevoegForm(forms.Form):
+    label = forms.ChoiceField(label="Label", required=True, choices=Label.LabelType.choices)
+    text = forms.CharField(label="Naam", max_length=255, required=True)
+
 class PasswordResetForm(forms.Form):
     new_password = forms.CharField(label="Nieuw wachtwoord", widget=PasswordInput)
     retype_new_password = forms.CharField(label="Nieuw wachtwoord hertypen", widget=PasswordInput)
@@ -26,19 +35,21 @@ class PasswordResetForm(forms.Form):
 class PasswordResetInitForm(forms.Form):
     email = forms.EmailField(label="Email", required=True, widget=forms.EmailInput)
 
+
 class UserCreationForm(forms.Form):
     username = forms.CharField(label="Gebruikersnaam", max_length=20, required=True)
     email = forms.EmailField(label="E-mail", required=True)
     is_admin = forms.BooleanField(label="Is administrator", required=False)
 
+
 class UserUpdateForm(forms.Form):
     email = forms.EmailField(label="E-mail", required=True)
     is_admin = forms.BooleanField(label="Is administrator", required=False)
 
-    
+
 class PieceEditForm(forms.Form):
     title = forms.CharField(label="Titel", max_length=100)
-    
+
     def __init__(self, data=None, files=None):
         super(PieceEditForm, self).__init__(data=data, files=files)
         choices_instrument = self._fetch_labels('INSTRUMENT')
@@ -62,13 +73,15 @@ class PieceEditForm(forms.Form):
             choices=choices_sleutel,
             required=False
         )
-        
+
     def _fetch_labels(self, label_type: str) -> list[tuple]:
         l = Label.objects.filter(label_type=label_type)
         return [(x.id, x.text) for x in l]
 
+
 class PieceCreationForm(PieceEditForm):
     file = forms.FileField(label="Bestand")
+
 
 class LabelRegistrationForm(forms.Form):
 
