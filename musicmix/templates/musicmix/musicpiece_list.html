@@ -8,6 +8,7 @@
         <tr>
             <th>Naam</th>
             <th>Actief</th>
+            <th>Acties</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +16,13 @@
             <tr>
                 <td>{{ foo.title }}</td>
                 <td>{{ foo.active }}</td>
+                <td>
+                    <div style="display: flex; flex-direction: row; gap: 10px;">
+                        <a href="{% url 'delete_piece' foo.pk %}" class="button fa fa-edit"></a>
+                        <a href="{% url 'download_specific' foo.pk %}" class="button fa fa-trash"></a>
+                    </div>
+
+                </td>
             </tr>
         {% endfor %}
         </tbody>
